@@ -1,0 +1,136 @@
+---
+title: Installation
+description: How to install @loyalteez/react-components in your project.
+---
+
+import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+## Package Installation
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @loyalteez/react-components
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @loyalteez/react-components
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @loyalteez/react-components
+    ```
+  </TabItem>
+</Tabs>
+
+## Requirements
+
+- React 18.0.0 or higher
+- React DOM 18.0.0 or higher
+
+## Setup
+
+<Steps>
+
+1. **Import the styles**
+
+   Add the CSS import to your app's entry point:
+
+   ```tsx
+   // App.tsx or main.tsx
+   import '@loyalteez/react-components/styles.css';
+   ```
+
+2. **Import components**
+
+   Import the components you need:
+
+   ```tsx
+   import { BalanceDisplay, TierBadge } from '@loyalteez/react-components';
+   ```
+
+3. **Use components**
+
+   Add components to your JSX:
+
+   ```tsx
+   function MyComponent() {
+     return (
+       <div>
+         <TierBadge tier="gold" />
+         <BalanceDisplay balance={5420} />
+       </div>
+     );
+   }
+   ```
+
+</Steps>
+
+## Optional: Tailwind CSS Users
+
+If your project uses Tailwind CSS, you can extend your config with our preset for additional utility classes:
+
+```js
+// tailwind.config.js
+import { loyalteezPreset } from '@loyalteez/react-components/tailwind';
+
+export default {
+  presets: [loyalteezPreset],
+  content: [
+    './src/**/*.{ts,tsx}',
+    './node_modules/@loyalteez/react-components/dist/**/*.js',
+  ],
+};
+```
+
+## Optional: Framer Motion
+
+For enhanced animations, install Framer Motion as an optional peer dependency:
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install framer-motion
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add framer-motion
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add framer-motion
+    ```
+  </TabItem>
+</Tabs>
+
+Then import from the motion entry point:
+
+```tsx
+import { BalanceDisplayMotion } from '@loyalteez/react-components/motion';
+
+// Enhanced animation with spring physics
+<BalanceDisplayMotion balance={5420} showDollarValue />
+```
+
+## TypeScript
+
+The package includes TypeScript definitions. No additional `@types` package needed.
+
+```tsx
+import type { BalanceDisplayProps } from '@loyalteez/react-components';
+
+const props: BalanceDisplayProps = {
+  balance: 5420,
+  showDollarValue: true,
+  size: 'lg',
+};
+```
+
+## Next Steps
+
+Now that you have the package installed, check out the [Quick Start guide](/getting-started/quick-start) to build your first component.
+

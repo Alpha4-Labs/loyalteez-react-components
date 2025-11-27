@@ -1,0 +1,93 @@
+---
+title: Introduction
+description: React components for building loyalty program interfaces with Loyalteez.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+# @loyalteez/react-components
+
+A collection of beautiful, accessible React components for building loyalty program interfaces. Launch polished loyalty experiences in hours instead of weeks.
+
+## Features
+
+<CardGrid>
+  <Card title="Beautiful Defaults" icon="star">
+    Dark theme with customizable CSS variables. Components look great out of the box.
+  </Card>
+  <Card title="Composable" icon="puzzle">
+    Use individual components or pre-built layouts. Mix and match as needed.
+  </Card>
+  <Card title="Headless Hooks" icon="setting">
+    Every component exports a headless hook for full UI control.
+  </Card>
+  <Card title="Accessible" icon="approve-check">
+    WCAG 2.1 AA compliant. Works with screen readers and keyboard navigation.
+  </Card>
+</CardGrid>
+
+## Quick Example
+
+```tsx
+import { BalanceDisplay, TierBadge } from '@loyalteez/react-components';
+import '@loyalteez/react-components/styles.css';
+
+function LoyaltyWidget() {
+  return (
+    <div className="loyalty-widget">
+      <TierBadge tier="gold" />
+      <BalanceDisplay 
+        balance={5420} 
+        showDollarValue 
+        animated 
+      />
+    </div>
+  );
+}
+```
+
+## Component Library
+
+### Core Components (Phase 1)
+
+- **BalanceDisplay** — Display LTZ balance with animated counter
+- **ProgressBar** — Generic progress indicator with LTZ theming
+- **TierBadge** — Bronze/Silver/Gold/Platinum tier badges
+- **RewardToast** — Notification popup for earned rewards
+- **PerkCard** — Marketplace perk display with claim button
+
+### Gamification (Phase 2)
+
+- StreakCounter — Daily/weekly streak with flame animation
+- Leaderboard — Top earners display
+- BadgeGrid — Achievement badges collection
+- ChallengeCard — Active challenge progress
+- MilestoneTimeline — Visual timeline of achievements
+
+## Why Loyalteez Components?
+
+1. **Reduce Time-to-Launch** — Brands configure, don't build from scratch
+2. **Consistent UX** — Unified patterns across the Loyalteez ecosystem
+3. **Developer Relations** — Open-source library attracts developers
+4. **Lower Technical Barrier** — Non-technical brands can implement easily
+
+## Browser Support
+
+- Chrome/Edge 90+
+- Firefox 90+
+- Safari 14+
+- Mobile browsers (iOS Safari 14+, Chrome Android 90+)
+
+## Next Steps
+
+Ready to get started?
+
+<CardGrid>
+  <Card title="Installation" icon="rocket">
+    [Install the package](/getting-started/installation) and set up your project.
+  </Card>
+  <Card title="Quick Start" icon="open-book">
+    [Build your first component](/getting-started/quick-start) in 5 minutes.
+  </Card>
+</CardGrid>
+

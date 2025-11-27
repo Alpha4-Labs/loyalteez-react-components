@@ -4,10 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@loyalteez/react-components.svg)](https://www.npmjs.com/package/@loyalteez/react-components)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## 🚧 Under Development
-
-This package is currently under active development. The first stable release is coming soon!
+[![CI](https://github.com/Alpha4-Labs/loyalteez-react-components/actions/workflows/ci.yml/badge.svg)](https://github.com/Alpha4-Labs/loyalteez-react-components/actions/workflows/ci.yml)
 
 ## Overview
 
@@ -23,35 +20,14 @@ This package is currently under active development. The first stable release is 
 - 📱 **Responsive** — Mobile-first design
 - ♿ **Accessible** — WCAG 2.1 AA compliant
 
-## Planned Components
-
-### Core (Phase 1)
-- `<BalanceDisplay />` — Display LTZ balance with animated counter
-- `<ProgressBar />` — Generic progress indicator with LTZ theming
-- `<TierBadge />` — Bronze/Silver/Gold/Platinum tier badges
-- `<RewardToast />` — Notification popup for earned rewards
-- `<PerkCard />` — Marketplace perk display with claim button
-
-### Gamification (Phase 2)
-- `<StreakCounter />` — Daily/weekly streak with flame animation
-- `<Leaderboard />` — Top earners display
-- `<BadgeGrid />` — Achievement badges collection
-- `<ChallengeCard />` — Active challenge progress
-- `<MilestoneTimeline />` — Visual timeline of achievements
-
-### Layouts (Phase 3)
-- `<TierCard />` — Full tier information card
-- `<PerkGrid />` — Marketplace grid layout
-- `<LoyaltyDashboard />` — Pre-composed dashboard
-
 ## Installation
 
 ```bash
 npm install @loyalteez/react-components
 # or
-yarn add @loyalteez/react-components
-# or
 pnpm add @loyalteez/react-components
+# or
+yarn add @loyalteez/react-components
 ```
 
 ## Quick Start
@@ -70,6 +46,22 @@ function MyLoyaltyWidget() {
 }
 ```
 
+## Components
+
+### Core (Phase 1)
+- ✅ **BalanceDisplay** — Display LTZ balance with animated counter
+- 🚧 **ProgressBar** — Generic progress indicator with LTZ theming
+- 🚧 **TierBadge** — Bronze/Silver/Gold/Platinum tier badges
+- 🚧 **RewardToast** — Notification popup for earned rewards
+- 🚧 **PerkCard** — Marketplace perk display with claim button
+
+### Gamification (Phase 2)
+- 📋 StreakCounter — Daily/weekly streak with flame animation
+- 📋 Leaderboard — Top earners display
+- 📋 BadgeGrid — Achievement badges collection
+- 📋 ChallengeCard — Active challenge progress
+- 📋 MilestoneTimeline — Visual timeline of achievements
+
 ## Theming
 
 Customize with CSS variables:
@@ -85,9 +77,52 @@ Customize with CSS variables:
 }
 ```
 
+### Tailwind CSS
+
+For Tailwind users, extend your config with our preset:
+
+```js
+// tailwind.config.js
+import { loyalteezPreset } from '@loyalteez/react-components/tailwind';
+
+export default {
+  presets: [loyalteezPreset],
+  // ...
+};
+```
+
+## Framer Motion (Optional)
+
+For enhanced animations:
+
+```tsx
+import { BalanceDisplayMotion } from '@loyalteez/react-components/motion';
+
+<BalanceDisplayMotion balance={5420} showDollarValue />
+```
+
+Requires `framer-motion` as a peer dependency.
+
 ## Documentation
 
-Full documentation coming soon at [loyalteez.app/docs](https://loyalteez.app/docs)
+- [Full Documentation](https://loyalteez.app/docs)
+- [Storybook](https://alpha4-labs.github.io/loyalteez-react-components)
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start Storybook
+pnpm dev
+
+# Run tests
+pnpm test
+
+# Build library
+pnpm build
+```
 
 ## Contributing
 
@@ -96,4 +131,3 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ## License
 
 MIT © [Loyalteez](https://loyalteez.app)
-

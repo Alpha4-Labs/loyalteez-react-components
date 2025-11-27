@@ -1,0 +1,78 @@
+---
+title: Accessibility
+description: Accessibility features and best practices for Loyalteez components.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Accessibility
+
+<Aside type="caution">
+  Full accessibility documentation is coming soon.
+</Aside>
+
+All Loyalteez components are built with accessibility in mind, targeting WCAG 2.1 AA compliance.
+
+## General Principles
+
+### Semantic HTML
+
+All components use semantic HTML elements where appropriate:
+- Buttons for interactive elements
+- Lists for collections
+- Headings for structure
+
+### ARIA Attributes
+
+Components include proper ARIA attributes:
+- `aria-label` for meaningful descriptions
+- `role` attributes where semantic elements aren't sufficient
+- Live regions for dynamic content
+
+### Keyboard Navigation
+
+All interactive elements are:
+- Focusable via Tab key
+- Activatable via Enter/Space
+- Navigable via arrow keys (where appropriate)
+
+### Screen Reader Support
+
+Components are tested with:
+- VoiceOver (macOS)
+- NVDA (Windows)
+- JAWS (Windows)
+
+## Component-Specific Features
+
+### BalanceDisplay
+
+- Uses `aria-label` with full numeric value
+- Loading state has `role="status"`
+- Uses `tabular-nums` for consistent digit width
+
+### RewardToast
+
+- Uses ARIA live region for announcements
+- Dismissable via Escape key
+- Focus management when appearing
+
+## Color Contrast
+
+All color combinations meet WCAG 2.1 AA contrast ratios:
+- Normal text: 4.5:1 minimum
+- Large text: 3:1 minimum
+- Interactive elements: 3:1 minimum
+
+## Testing
+
+We recommend testing your implementation with:
+- axe DevTools browser extension
+- Screen readers
+- Keyboard-only navigation
+- Color contrast analyzers
+
+## Reporting Issues
+
+If you find an accessibility issue, please [open a GitHub issue](https://github.com/Alpha4-Labs/loyalteez-react-components/issues) with the `accessibility` label.
+

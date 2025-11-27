@@ -1,0 +1,47 @@
+---
+title: RewardToast
+description: Notification popup when user earns LTZ.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# RewardToast
+
+<Aside type="caution">
+  This component is coming soon in the next release.
+</Aside>
+
+A toast notification component that appears when users earn LTZ rewards.
+
+## Preview
+
+```tsx
+<RewardToast 
+  amount={250} 
+  eventName="account_creation"
+  position="top-right"
+/>
+```
+
+## Planned Features
+
+- Slide-in animation
+- Auto-dismiss with configurable duration
+- Multiple positions
+- Stack multiple toasts
+- Custom messages
+- Optional sound effect
+
+## Planned Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `amount` | `number` | LTZ amount earned |
+| `eventName` | `string` | Event type |
+| `message` | `string` | Custom message |
+| `duration` | `number` | Auto-dismiss time (ms) |
+| `position` | `string` | Toast position |
+| `onDismiss` | `function` | Dismiss callback |
+
+Stay tuned for the full release!
+

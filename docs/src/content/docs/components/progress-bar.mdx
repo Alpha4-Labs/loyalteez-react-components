@@ -1,0 +1,48 @@
+---
+title: ProgressBar
+description: Generic progress indicator with LTZ theming.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# ProgressBar
+
+<Aside type="caution">
+  This component is coming soon in the next release.
+</Aside>
+
+A beautiful progress bar component for showing tier progress, challenge completion, and other progress indicators.
+
+## Preview
+
+```tsx
+<ProgressBar 
+  current={2500} 
+  target={5000} 
+  label="Progress to Silver" 
+  showPercentage 
+/>
+```
+
+## Planned Features
+
+- Smooth fill animation
+- Multiple color themes (amber, emerald, purple, sky)
+- Percentage or absolute value labels
+- Milestone markers
+- Size variants (sm, md, lg)
+
+## Planned Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `current` | `number` | Current progress value |
+| `target` | `number` | Target/maximum value |
+| `label` | `string` | Optional label text |
+| `showPercentage` | `boolean` | Show percentage label |
+| `color` | `string` | Color theme |
+| `size` | `string` | Size variant |
+| `animated` | `boolean` | Animate on change |
+
+Stay tuned for the full release!
+

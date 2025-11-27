@@ -1,0 +1,173 @@
+---
+title: BalanceDisplay
+description: Display LTZ balance with optional animation and dollar value.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+# BalanceDisplay
+
+Displays the user's LTZ balance with optional animation, dollar value conversion, and multiple size variants.
+
+## Import
+
+```tsx
+import { BalanceDisplay } from '@loyalteez/react-components';
+
+// Or the Framer Motion enhanced version
+import { BalanceDisplayMotion } from '@loyalteez/react-components/motion';
+
+// Or just the hook for custom UI
+import { useBalanceDisplay } from '@loyalteez/react-components';
+```
+
+## Usage
+
+### Basic
+
+```tsx
+<BalanceDisplay balance={5420} />
+```
+
+### With Dollar Value
+
+```tsx
+<BalanceDisplay balance={5420} showDollarValue />
+// Output: "5,420 LTZ" with "$5.42 value" below
+```
+
+### Animated
+
+```tsx
+<BalanceDisplay balance={balance} animated />
+// Animates smoothly when balance changes
+```
+
+### Size Variants
+
+```tsx
+<BalanceDisplay balance={5420} size="sm" />
+<BalanceDisplay balance={5420} size="md" /> {/* default */}
+<BalanceDisplay balance={5420} size="lg" />
+```
+
+### Compact Numbers
+
+For large numbers, use compact format:
+
+```tsx
+<BalanceDisplay balance={1500000} compact />
+// Output: "1.5M LTZ"
+```
+
+### Loading State
+
+```tsx
+<BalanceDisplay balance={0} loading />
+// Shows skeleton placeholder
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `balance` | `number` | required | The LTZ balance to display |
+| `showDollarValue` | `boolean` | `false` | Show dollar equivalent (balance / 1000) |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+| `animated` | `boolean` | `false` | Animate on balance change |
+| `loading` | `boolean` | `false` | Show loading skeleton |
+| `showLabel` | `boolean` | `true` | Show "LTZ" label |
+| `compact` | `boolean` | `false` | Use compact format (1K, 1M) |
+| `className` | `string` | - | Additional CSS classes |
+
+Plus all standard `div` HTML attributes.
+
+## Headless Hook
+
+For complete UI control, use the `useBalanceDisplay` hook:
+
+```tsx
+import { useBalanceDisplay } from '@loyalteez/react-components';
+
+function CustomBalance({ balance }: { balance: number }) {
+  const {
+    displayValue,      // Current value (may differ during animation)
+    formattedBalance,  // "5,420" or "1.5M"
+    dollarValue,       // 5.42
+    isAnimating,       // true during animation
+  } = useBalanceDisplay({
+    balance,
+    animated: true,
+    compact: false,
+  });
+
+  return (
+    <div className="my-custom-styles">
+      <span>{formattedBalance}</span>
+    </div>
+  );
+}
+```
+
+### Hook Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `balance` | `number` | required | The balance value |
+| `animated` | `boolean` | `false` | Enable animation |
+| `compact` | `boolean` | `false` | Use compact format |
+
+### Hook Return Values
+
+| Value | Type | Description |
+|-------|------|-------------|
+| `displayValue` | `number` | Current display value (animated) |
+| `formattedBalance` | `string` | Formatted string with separators |
+| `dollarValue` | `number` | Dollar equivalent |
+| `isAnimating` | `boolean` | Animation in progress |
+
+## Framer Motion Version
+
+For enhanced animations with spring physics:
+
+```tsx
+import { BalanceDisplayMotion } from '@loyalteez/react-components/motion';
+
+<BalanceDisplayMotion 
+  balance={5420} 
+  showDollarValue 
+/>
+```
+
+<Aside type="note">
+  The motion version requires `framer-motion` as a peer dependency.
+</Aside>
+
+## Accessibility
+
+- Uses `tabular-nums` for consistent digit width
+- Includes `aria-label` with full balance value
+- Loading state has `role="status"` with descriptive label
+- Works with screen readers
+
+## Styling
+
+Override styles with CSS variables:
+
+```css
+:root {
+  --ltz-primary: 245 158 11;        /* LTZ label color */
+  --ltz-text-primary: 255 255 255;  /* Balance text color */
+  --ltz-text-secondary: 161 161 170; /* Dollar value color */
+}
+```
+
+Or pass a custom `className`:
+
+```tsx
+<BalanceDisplay 
+  balance={5420} 
+  className="my-custom-balance" 
+/>
+```
+

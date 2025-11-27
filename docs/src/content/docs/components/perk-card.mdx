@@ -1,0 +1,53 @@
+---
+title: PerkCard
+description: Display perks in the rewards marketplace.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# PerkCard
+
+<Aside type="caution">
+  This component is coming soon in the next release.
+</Aside>
+
+A card component for displaying perks in the rewards marketplace.
+
+## Preview
+
+```tsx
+<PerkCard 
+  id="perk-001"
+  name="$5 Store Credit"
+  description="Instant discount on your next purchase"
+  ltzCost={5000}
+  category="product"
+  userBalance={7500}
+  onClaim={handleClaim}
+/>
+```
+
+## Planned Features
+
+- Affordable/unaffordable state styling
+- Category color coding
+- Claim button with loading state
+- Sold out state
+- Image support
+
+## Planned Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `id` | `string` | Perk identifier |
+| `name` | `string` | Perk name |
+| `description` | `string` | Perk description |
+| `ltzCost` | `number` | Cost in LTZ |
+| `imageUrl` | `string` | Perk image |
+| `category` | `string` | Perk category |
+| `available` | `boolean` | In stock status |
+| `userBalance` | `number` | User's balance |
+| `onClaim` | `function` | Claim callback |
+
+Stay tuned for the full release!
+

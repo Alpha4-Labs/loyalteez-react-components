@@ -1,0 +1,49 @@
+---
+title: TierBadge
+description: Display tier status with appropriate styling.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# TierBadge
+
+<Aside type="caution">
+  This component is coming soon in the next release.
+</Aside>
+
+A badge component that displays the user's loyalty tier with appropriate colors and icons.
+
+## Preview
+
+```tsx
+<TierBadge tier="gold" size="md" showIcon />
+```
+
+## Planned Features
+
+- Pre-styled for Bronze, Silver, Gold, Platinum
+- Custom tier support
+- Multiple variants (filled, outline, minimal)
+- Icon display option
+- Tooltip with tier benefits on hover
+
+## Tier Styles
+
+| Tier | Color | Icon |
+|------|-------|------|
+| Bronze | Amber/Brown | 🥉 |
+| Silver | Slate/Gray | 🥈 |
+| Gold | Yellow/Gold | 🥇 |
+| Platinum | White/Silver | 💎 |
+
+## Planned Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `tier` | `string` | Tier name |
+| `size` | `string` | Size variant |
+| `showIcon` | `boolean` | Show tier icon |
+| `variant` | `string` | Visual variant |
+
+Stay tuned for the full release!
+

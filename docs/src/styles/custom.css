@@ -1,0 +1,48 @@
+/* Loyalteez Starlight Theme Customization */
+
+:root {
+  /* Brand colors */
+  --sl-color-accent-low: #451a03;
+  --sl-color-accent: #f59e0b;
+  --sl-color-accent-high: #fcd34d;
+  
+  /* Text */
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #f4f4f5;
+  --sl-color-gray-2: #e4e4e7;
+  --sl-color-gray-3: #d4d4d8;
+  --sl-color-gray-4: #a1a1aa;
+  --sl-color-gray-5: #71717a;
+  --sl-color-gray-6: #27272a;
+  
+  /* Background */
+  --sl-color-black: #18181b;
+  --sl-color-bg-nav: #27272a;
+  --sl-color-bg-sidebar: #1f1f23;
+}
+
+/* Dark theme (default) */
+:root[data-theme='dark'] {
+  --sl-color-bg: #18181b;
+}
+
+/* Light theme */
+:root[data-theme='light'] {
+  --sl-color-bg: #ffffff;
+  --sl-color-accent-low: #fef3c7;
+  --sl-color-accent: #d97706;
+  --sl-color-accent-high: #92400e;
+}
+
+/* Code blocks */
+.expressive-code {
+  --ec-frm-edBg: #27272a;
+  --ec-frm-edActTabBg: #3f3f46;
+  --ec-frm-edActTabIndHi: #f59e0b;
+}
+
+/* Badge styling */
+.sl-badge {
+  font-weight: 500;
+}
+

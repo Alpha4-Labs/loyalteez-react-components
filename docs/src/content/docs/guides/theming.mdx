@@ -1,0 +1,222 @@
+---
+title: Theming
+description: Customize the look and feel of Loyalteez components.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+# Theming
+
+Loyalteez components use CSS variables for theming, making it easy to customize colors, spacing, and other visual properties.
+
+## CSS Variables
+
+### Brand Colors
+
+```css
+:root {
+  /* Primary - Amber (LTZ brand color) */
+  --ltz-primary: 245 158 11;
+  --ltz-primary-dark: 180 83 9;
+  
+  /* Secondary - Emerald */
+  --ltz-secondary: 16 185 129;
+  
+  /* Accent - Violet */
+  --ltz-accent: 139 92 246;
+}
+```
+
+<Aside type="tip">
+  Colors are defined as RGB values (without the `rgb()` wrapper) to support opacity modifiers.
+</Aside>
+
+### Tier Colors
+
+```css
+:root {
+  --ltz-tier-bronze: #cd7f32;
+  --ltz-tier-silver: #c0c0c0;
+  --ltz-tier-gold: #ffd700;
+  --ltz-tier-platinum: #e5e4e2;
+}
+```
+
+### Background & Text
+
+```css
+/* Dark theme (default) */
+:root {
+  --ltz-bg-primary: 24 24 27;      /* zinc-900 */
+  --ltz-bg-secondary: 39 39 42;    /* zinc-800 */
+  --ltz-bg-tertiary: 63 63 70;     /* zinc-700 */
+  
+  --ltz-text-primary: 255 255 255;
+  --ltz-text-secondary: 161 161 170; /* zinc-400 */
+  --ltz-text-muted: 113 113 122;    /* zinc-500 */
+  
+  --ltz-border: 63 63 70;           /* zinc-700 */
+}
+
+/* Light theme */
+[data-theme='light'] {
+  --ltz-bg-primary: 255 255 255;
+  --ltz-bg-secondary: 244 244 245;  /* zinc-100 */
+  --ltz-bg-tertiary: 228 228 231;   /* zinc-200 */
+  
+  --ltz-text-primary: 24 24 27;
+  --ltz-text-secondary: 82 82 91;    /* zinc-600 */
+  --ltz-text-muted: 113 113 122;     /* zinc-500 */
+  
+  --ltz-border: 212 212 216;         /* zinc-300 */
+}
+```
+
+### Border Radius
+
+```css
+:root {
+  --ltz-radius: 0.5rem;
+  --ltz-radius-sm: 0.375rem;
+  --ltz-radius-lg: 1rem;
+  --ltz-radius-full: 9999px;
+}
+```
+
+### Animation
+
+```css
+:root {
+  --ltz-duration: 200ms;
+  --ltz-duration-slow: 400ms;
+  --ltz-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
+## Theme Switching
+
+Toggle between dark and light themes using the `data-theme` attribute:
+
+```tsx
+function ThemeToggle() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  
+  return (
+    <div data-theme={theme}>
+      <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}>
+        Toggle Theme
+      </button>
+      <BalanceDisplay balance={5420} />
+    </div>
+  );
+}
+```
+
+## Custom Brand Colors
+
+Override the defaults to match your brand:
+
+```css
+/* Your app's global CSS */
+:root {
+  /* Change to blue brand color */
+  --ltz-primary: 59 130 246;        /* blue-500 */
+  --ltz-primary-dark: 37 99 235;    /* blue-600 */
+  
+  /* Change secondary to teal */
+  --ltz-secondary: 20 184 166;      /* teal-500 */
+}
+```
+
+## Tailwind CSS Integration
+
+If you're using Tailwind CSS, extend your config with our preset:
+
+```js
+// tailwind.config.js
+import { loyalteezPreset } from '@loyalteez/react-components/tailwind';
+
+export default {
+  presets: [loyalteezPreset],
+  content: ['./src/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      // Your custom extensions
+    },
+  },
+};
+```
+
+This gives you access to utility classes like:
+
+```tsx
+<div className="bg-ltz-bg-primary text-ltz-text-primary">
+  <span className="text-ltz-primary">Highlighted text</span>
+</div>
+```
+
+## Component-Level Customization
+
+Each component accepts a `className` prop for additional styling:
+
+```tsx
+<BalanceDisplay 
+  balance={5420}
+  className="shadow-lg border border-ltz-border rounded-xl p-4"
+/>
+```
+
+## CSS-in-JS
+
+If you're using CSS-in-JS, you can reference the variables:
+
+<Tabs>
+  <TabItem label="styled-components">
+    ```tsx
+    import styled from 'styled-components';
+
+    const CustomBalance = styled.div`
+      background: rgb(var(--ltz-bg-secondary));
+      color: rgb(var(--ltz-text-primary));
+      border-radius: var(--ltz-radius);
+    `;
+    ```
+  </TabItem>
+  <TabItem label="Emotion">
+    ```tsx
+    import { css } from '@emotion/react';
+
+    const customStyles = css`
+      background: rgb(var(--ltz-bg-secondary));
+      color: rgb(var(--ltz-text-primary));
+      border-radius: var(--ltz-radius);
+    `;
+    ```
+  </TabItem>
+</Tabs>
+
+## Complete Variable Reference
+
+| Variable | Default (Dark) | Description |
+|----------|---------------|-------------|
+| `--ltz-primary` | `245 158 11` | Primary brand color |
+| `--ltz-primary-dark` | `180 83 9` | Darker primary |
+| `--ltz-secondary` | `16 185 129` | Secondary color |
+| `--ltz-accent` | `139 92 246` | Accent color |
+| `--ltz-tier-bronze` | `#cd7f32` | Bronze tier |
+| `--ltz-tier-silver` | `#c0c0c0` | Silver tier |
+| `--ltz-tier-gold` | `#ffd700` | Gold tier |
+| `--ltz-tier-platinum` | `#e5e4e2` | Platinum tier |
+| `--ltz-bg-primary` | `24 24 27` | Main background |
+| `--ltz-bg-secondary` | `39 39 42` | Secondary background |
+| `--ltz-bg-tertiary` | `63 63 70` | Tertiary background |
+| `--ltz-text-primary` | `255 255 255` | Primary text |
+| `--ltz-text-secondary` | `161 161 170` | Secondary text |
+| `--ltz-text-muted` | `113 113 122` | Muted text |
+| `--ltz-border` | `63 63 70` | Border color |
+| `--ltz-radius` | `0.5rem` | Default border radius |
+| `--ltz-radius-sm` | `0.375rem` | Small radius |
+| `--ltz-radius-lg` | `1rem` | Large radius |
+| `--ltz-duration` | `200ms` | Animation duration |
+| `--ltz-easing` | `cubic-bezier(...)` | Animation easing |
+

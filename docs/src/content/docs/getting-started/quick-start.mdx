@@ -1,0 +1,151 @@
+---
+title: Quick Start
+description: Build your first loyalty widget in 5 minutes.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+# Quick Start
+
+Let's build a simple loyalty status widget that shows a user's tier and balance.
+
+<Steps>
+
+1. **Create the component**
+
+   ```tsx
+   // LoyaltyStatus.tsx
+   import { 
+     BalanceDisplay, 
+     TierBadge 
+   } from '@loyalteez/react-components';
+
+   interface LoyaltyStatusProps {
+     tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+     balance: number;
+   }
+
+   export function LoyaltyStatus({ tier, balance }: LoyaltyStatusProps) {
+     return (
+       <div className="flex items-center gap-4 p-4 rounded-lg bg-zinc-900">
+         <TierBadge tier={tier} size="lg" />
+         <BalanceDisplay 
+           balance={balance} 
+           showDollarValue 
+           animated 
+         />
+       </div>
+     );
+   }
+   ```
+
+2. **Use the component**
+
+   ```tsx
+   // App.tsx
+   import '@loyalteez/react-components/styles.css';
+   import { LoyaltyStatus } from './LoyaltyStatus';
+
+   function App() {
+     return (
+       <div className="min-h-screen bg-zinc-950 p-8">
+         <LoyaltyStatus tier="gold" balance={5420} />
+       </div>
+     );
+   }
+   ```
+
+3. **See it in action**
+
+   Your widget now shows:
+   - A gold tier badge with icon
+   - The balance (5,420 LTZ) with animation
+   - Dollar value conversion ($5.42)
+
+</Steps>
+
+## Adding Interactivity
+
+Let's make the balance update when the user earns rewards:
+
+```tsx
+import { useState } from 'react';
+import { BalanceDisplay } from '@loyalteez/react-components';
+
+export function InteractiveBalance() {
+  const [balance, setBalance] = useState(5000);
+
+  const earnReward = () => {
+    setBalance(prev => prev + Math.floor(Math.random() * 500) + 100);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <BalanceDisplay 
+        balance={balance} 
+        animated 
+        showDollarValue 
+        size="lg" 
+      />
+      <button
+        onClick={earnReward}
+        className="px-4 py-2 bg-amber-500 text-black rounded-lg font-medium hover:bg-amber-400"
+      >
+        Earn Reward
+      </button>
+    </div>
+  );
+}
+```
+
+<Aside type="tip">
+  The `animated` prop enables smooth counting animations when the balance changes.
+</Aside>
+
+## Using Headless Hooks
+
+Need complete control over the UI? Use the headless hook:
+
+```tsx
+import { useBalanceDisplay } from '@loyalteez/react-components';
+
+function CustomBalanceDisplay({ balance }: { balance: number }) {
+  const { formattedBalance, dollarValue, isAnimating } = useBalanceDisplay({
+    balance,
+    animated: true,
+  });
+
+  return (
+    <div className="my-custom-styles">
+      <span className={isAnimating ? 'pulse' : ''}>
+        {formattedBalance}
+      </span>
+      <small>${dollarValue.toFixed(2)}</small>
+    </div>
+  );
+}
+```
+
+## Theming
+
+Override the default theme with CSS variables:
+
+```css
+:root {
+  /* Change primary color to blue */
+  --ltz-primary: 59 130 246;
+  
+  /* Use a light background */
+  --ltz-bg-primary: 255 255 255;
+  --ltz-text-primary: 24 24 27;
+}
+```
+
+See the [Theming guide](/guides/theming) for all available variables.
+
+## Next Steps
+
+- Explore individual [component documentation](/components/balance-display)
+- Learn about [theming and customization](/guides/theming)
+- Check out the [Storybook](https://alpha4-labs.github.io/loyalteez-react-components) for interactive examples
+

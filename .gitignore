@@ -5,6 +5,7 @@ node_modules/
 # Build outputs
 dist/
 *.tsbuildinfo
+docs/dist/
 
 # Testing
 coverage/
@@ -37,4 +38,5 @@ pnpm-debug.log*
 # Misc
 *.local
 .cache/
+.astro/
 
