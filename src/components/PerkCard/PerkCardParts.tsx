@@ -300,7 +300,13 @@ PerkCardPrice.displayName = 'PerkCard.Price';
 
 export const PerkCardSupply = forwardRef<HTMLDivElement, PerkCardSupplyProps>(
   (
-    { showProgress = true, showRemaining = true, urgencyThreshold = 10, className, ...props },
+    {
+      showProgress: _showProgress = true, // Reserved for hiding progress bar
+      showRemaining = true,
+      urgencyThreshold = 10,
+      className,
+      ...props
+    },
     ref
   ) => {
     const { perk } = usePerkCard();

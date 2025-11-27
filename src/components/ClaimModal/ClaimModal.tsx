@@ -129,7 +129,7 @@ export const ClaimModal = forwardRef<HTMLDivElement, ClaimModalProps>(
       estimatedTime,
       customContent,
       size = 'md',
-      showConfetti = true,
+      showConfetti: _showConfetti = true, // TODO: integrate with ConfettiExplosion
       closeOnBackdropClick = true,
       autoCloseOnSuccess = 3000,
       labels = {},
