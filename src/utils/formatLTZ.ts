@@ -37,4 +37,3 @@ export function formatCompact(value: number): string {
     maximumFractionDigits: 1,
   }).format(value);
 }
-

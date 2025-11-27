@@ -86,4 +86,3 @@ export const loyalteezPreset: Partial<Config> = {
 };
 
 export default loyalteezPreset;
-

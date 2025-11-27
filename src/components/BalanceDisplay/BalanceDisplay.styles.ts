@@ -16,26 +16,23 @@ export const balanceDisplayStyles = cva(
   }
 );
 
-export const balanceValueStyles = cva(
-  'inline-flex items-baseline gap-1.5 text-ltz-text-primary',
-  {
-    variants: {
-      size: {
-        sm: 'text-lg',
-        md: 'text-2xl',
-        lg: 'text-4xl',
-      },
-      animated: {
-        true: 'transition-opacity duration-200',
-        false: '',
-      },
+export const balanceValueStyles = cva('inline-flex items-baseline gap-1.5 text-ltz-text-primary', {
+  variants: {
+    size: {
+      sm: 'text-lg',
+      md: 'text-2xl',
+      lg: 'text-4xl',
     },
-    defaultVariants: {
-      size: 'md',
-      animated: false,
+    animated: {
+      true: 'transition-opacity duration-200',
+      false: '',
     },
-  }
-);
+  },
+  defaultVariants: {
+    size: 'md',
+    animated: false,
+  },
+});
 
 export const balanceLabelStyles = cva('font-semibold text-ltz-primary', {
   variants: {
@@ -77,4 +74,3 @@ export const skeletonStyles = cva('ltz-skeleton', {
 });
 
 export type BalanceDisplayStyleProps = VariantProps<typeof balanceDisplayStyles>;
-

@@ -124,4 +124,3 @@ export const BalanceDisplayMotion = forwardRef<HTMLDivElement, BalanceDisplayPro
 );
 
 BalanceDisplayMotion.displayName = 'BalanceDisplayMotion';
-

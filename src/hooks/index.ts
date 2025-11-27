@@ -2,5 +2,7 @@
 export { useBalanceDisplay } from '@/components/BalanceDisplay/useBalanceDisplay';
 
 // Re-export types
-export type { UseBalanceDisplayOptions, UseBalanceDisplayReturn } from '@/components/BalanceDisplay/types';
-
+export type {
+  UseBalanceDisplayOptions,
+  UseBalanceDisplayReturn,
+} from '@/components/BalanceDisplay/types';

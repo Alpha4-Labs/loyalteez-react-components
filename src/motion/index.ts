@@ -5,4 +5,3 @@ export { BalanceDisplayMotion } from './BalanceDisplayMotion';
 
 // Re-export types for convenience
 export type { BalanceDisplayProps } from '@/components/BalanceDisplay/types';
-

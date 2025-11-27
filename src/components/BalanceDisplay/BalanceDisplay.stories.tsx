@@ -88,9 +88,7 @@ export const Animated: Story = {
     return (
       <div className="flex flex-col items-center gap-4">
         <BalanceDisplay balance={balance} animated showDollarValue size="lg" />
-        <p className="text-sm text-ltz-text-secondary">
-          Balance updates every 2 seconds
-        </p>
+        <p className="text-sm text-ltz-text-secondary">Balance updates every 2 seconds</p>
       </div>
     );
   },
@@ -131,4 +129,3 @@ export const LargeNumbers: Story = {
     </div>
   ),
 };
-

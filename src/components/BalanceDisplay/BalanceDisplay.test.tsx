@@ -47,4 +47,3 @@ describe('BalanceDisplay', () => {
     expect(screen.getByLabelText('5420 LTZ')).toBeInTheDocument();
   });
 });
-

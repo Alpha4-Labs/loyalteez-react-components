@@ -71,4 +71,3 @@ export interface UseBalanceDisplayReturn {
    */
   isAnimating: boolean;
 }
-

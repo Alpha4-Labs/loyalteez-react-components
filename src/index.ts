@@ -35,4 +35,3 @@ export type {
 // export type { TierBadgeProps } from './components/TierBadge';
 // export type { RewardToastProps } from './components/RewardToast';
 // export type { PerkCardProps } from './components/PerkCard';
-

@@ -57,19 +57,13 @@ export const BalanceDisplay = forwardRef<HTMLDivElement, BalanceDisplayProps>(
           {...props}
         >
           <div className={skeletonStyles({ size })} />
-          {showDollarValue && (
-            <div className={cn(skeletonStyles({ size }), 'h-4 w-16')} />
-          )}
+          {showDollarValue && <div className={cn(skeletonStyles({ size }), 'h-4 w-16')} />}
         </div>
       );
     }
 
     return (
-      <div
-        ref={ref}
-        className={cn(balanceDisplayStyles({ size }), className)}
-        {...props}
-      >
+      <div ref={ref} className={cn(balanceDisplayStyles({ size }), className)} {...props}>
         <div
           className={cn(
             balanceValueStyles({ size, animated }),
@@ -90,4 +84,3 @@ export const BalanceDisplay = forwardRef<HTMLDivElement, BalanceDisplayProps>(
 );
 
 BalanceDisplay.displayName = 'BalanceDisplay';
-
