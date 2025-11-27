@@ -107,6 +107,14 @@ function MyLoyaltyWidget() {
 | `ConfettiExplosion` | Canvas-based confetti celebration |
 | `useConfetti` | Hook for imperative confetti control |
 
+### Layout & Utility
+| Component | Description |
+|-----------|-------------|
+| `EmptyState` | Flexible empty state with presets (noPerks, noFavorites, etc.) |
+| `Skeleton` | Loading skeletons for cards, lists, balance displays |
+| `Tooltip` | Smart-positioned tooltips with arrow |
+| `FilterBar` | Filter dropdowns, search, sort, view toggle |
+
 ## Examples
 
 ### Streak Counter with Flame Animation
@@ -262,12 +270,47 @@ export default {
 For enhanced animations, import from `/motion`:
 
 ```tsx
-import { BalanceDisplayMotion } from '@loyalteez/react-components/motion';
+import { 
+  BalanceDisplayMotion,
+  StreakCounterMotion,
+  LeaderboardMotion,
+  ChallengeCardMotion,
+  AnimatedList,
+  AnimatedItem
+} from '@loyalteez/react-components/motion';
 
+// Physics-based balance counter
 <BalanceDisplayMotion balance={5420} showDollarValue />
+
+// Animated flame with intensity levels
+<StreakCounterMotion streak={14} showFlame />
+
+// Staggered entry animations for leaderboards
+<LeaderboardMotion entries={data} currentUserId="user123" />
+
+// Animated progress bars and timers
+<ChallengeCardMotion challenge={challengeData} onClaim={handleClaim} />
+
+// Stagger animate any list
+<AnimatedList preset="spring" staggerDelay={0.1}>
+  {items.map(item => <Card key={item.id} />)}
+</AnimatedList>
 ```
 
-Requires `framer-motion` as a peer dependency.
+### Motion Components
+| Component | Features |
+|-----------|----------|
+| `BalanceDisplayMotion` | Spring-based number transitions |
+| `StreakCounterMotion` | Physics-based flame, smooth count updates |
+| `LeaderboardMotion` | Staggered entries, layout animations, rank changes |
+| `ChallengeCardMotion` | Animated progress, pulsing timers, spring physics |
+| `AnimatedList` | Generic stagger wrapper with presets (fade, slide, scale, spring, bounce) |
+| `AnimatedItem` | Individual animated item control |
+
+Requires `framer-motion` as a peer dependency:
+```bash
+pnpm add framer-motion
+```
 
 ## Utilities
 
