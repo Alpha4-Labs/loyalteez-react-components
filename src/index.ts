@@ -71,6 +71,30 @@ export {
 export { ConfettiExplosion, useConfetti, DEFAULT_COLORS } from './components/ConfettiExplosion';
 
 // ============================================
+// Layout & Utility Components
+// ============================================
+export {
+  EmptyState,
+  NoPerksFound,
+  NoFavorites,
+  NoResults,
+  ErrorState,
+  EMPTY_STATE_PRESETS,
+} from './components/EmptyState';
+
+export {
+  Skeleton,
+  PerkCardSkeleton,
+  BalanceDisplaySkeleton,
+  LeaderboardSkeleton,
+  ChallengeCardSkeleton,
+} from './components/Skeleton';
+
+export { Tooltip, InfoTooltip } from './components/Tooltip';
+
+export { FilterBar, FilterChip, FilterDropdown } from './components/FilterBar';
+
+// ============================================
 // Headless Hooks
 // ============================================
 export { useBalanceDisplay } from './components/BalanceDisplay';
@@ -166,3 +190,40 @@ export type {
   ConfettiParticle,
   UseConfettiReturn,
 } from './components/ConfettiExplosion';
+
+// ============================================
+// Types - Layout & Utility
+// ============================================
+export type {
+  EmptyStateProps,
+  EmptyStateSize,
+  EmptyStateVariant,
+  EmptyStatePreset,
+} from './components/EmptyState';
+
+export type {
+  SkeletonProps,
+  SkeletonVariant,
+  PerkCardSkeletonProps,
+  BalanceDisplaySkeletonProps,
+  LeaderboardSkeletonProps,
+  ChallengeCardSkeletonProps,
+} from './components/Skeleton';
+
+export type {
+  TooltipProps,
+  InfoTooltipProps,
+  TooltipPosition,
+  TooltipAlign,
+} from './components/Tooltip';
+
+export type {
+  FilterBarProps,
+  FilterChipProps,
+  FilterDropdownProps,
+  FilterGroup,
+  FilterOption,
+  SortOption,
+  ViewMode,
+  SortDirection,
+} from './components/FilterBar';

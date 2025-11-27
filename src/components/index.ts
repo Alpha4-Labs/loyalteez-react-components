@@ -134,3 +134,57 @@ export type {
   ConfettiParticle,
   UseConfettiReturn,
 } from './ConfettiExplosion';
+
+// ============================================
+// Layout & Utility Components (Phase 5)
+// ============================================
+
+// EmptyState
+export {
+  EmptyState,
+  NoPerksFound,
+  NoFavorites,
+  NoResults,
+  ErrorState,
+  EMPTY_STATE_PRESETS,
+} from './EmptyState';
+export type {
+  EmptyStateProps,
+  EmptyStateSize,
+  EmptyStateVariant,
+  EmptyStatePreset,
+} from './EmptyState';
+
+// Skeleton
+export {
+  Skeleton,
+  PerkCardSkeleton,
+  BalanceDisplaySkeleton,
+  LeaderboardSkeleton,
+  ChallengeCardSkeleton,
+} from './Skeleton';
+export type {
+  SkeletonProps,
+  SkeletonVariant,
+  PerkCardSkeletonProps,
+  BalanceDisplaySkeletonProps,
+  LeaderboardSkeletonProps,
+  ChallengeCardSkeletonProps,
+} from './Skeleton';
+
+// Tooltip
+export { Tooltip, InfoTooltip } from './Tooltip';
+export type { TooltipProps, InfoTooltipProps, TooltipPosition, TooltipAlign } from './Tooltip';
+
+// FilterBar
+export { FilterBar, FilterChip, FilterDropdown } from './FilterBar';
+export type {
+  FilterBarProps,
+  FilterChipProps,
+  FilterDropdownProps,
+  FilterGroup,
+  FilterOption,
+  SortOption,
+  ViewMode,
+  SortDirection,
+} from './FilterBar';
