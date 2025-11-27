@@ -87,7 +87,7 @@ Customize with CSS variables:
 
 ## Documentation
 
-Full documentation coming soon at [loyalteez.com/docs](https://loyalteez.com/docs)
+Full documentation coming soon at [loyalteez.app/docs](https://loyalteez.app/docs)
 
 ## Contributing
 
@@ -95,5 +95,5 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## License
 
-MIT © [Loyalteez](https://loyalteez.com)
+MIT © [Loyalteez](https://loyalteez.app)
 
