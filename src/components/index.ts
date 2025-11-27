@@ -59,7 +59,7 @@ export type {
   PerkCardVariant,
   PerkCardSize,
   PerkData,
-  ClaimState,
+  ClaimState as PerkClaimState,
   PerkCardImageProps,
   PerkCardBrandProps,
   PerkCardTitleProps,
@@ -72,5 +72,65 @@ export type {
   PerkCardActionsProps,
 } from './PerkCard';
 
-// TODO: More components to be added
-// export { RewardToast, useToast } from './RewardToast';
+// ============================================
+// Gamification Components (Phase 3)
+// ============================================
+
+// StreakCounter
+export {
+  StreakCounter,
+  FlameIcon,
+  DEFAULT_MILESTONES,
+  DEFAULT_MESSAGES,
+  getFlameIntensity,
+  getStreakMessage,
+} from './StreakCounter';
+export type { StreakCounterProps, StreakType, StreakSize, StreakMilestone } from './StreakCounter';
+
+// Leaderboard
+export { Leaderboard, MEDAL_COLORS } from './Leaderboard';
+export type {
+  LeaderboardProps,
+  LeaderboardEntry,
+  LeaderboardSize,
+  LeaderboardEntryProps,
+} from './Leaderboard';
+
+// ChallengeCard
+export { ChallengeCard, DIFFICULTY_CONFIG, STATUS_CONFIG } from './ChallengeCard';
+export type {
+  ChallengeCardProps,
+  ChallengeData,
+  ChallengeReward,
+  ChallengeStatus,
+  ChallengeDifficulty,
+  ChallengeSize,
+} from './ChallengeCard';
+
+// ============================================
+// Interactive Components (Phase 4)
+// ============================================
+
+// RewardToast
+export { ToastProvider, useToast, TOAST_TYPE_CONFIG } from './RewardToast';
+export type {
+  Toast,
+  ToastType,
+  ToastPosition,
+  ToastOptions,
+  RewardToastOptions,
+  ToastContextValue,
+  ToastProviderProps,
+} from './RewardToast';
+
+// ClaimModal
+export { ClaimModal, DEFAULT_LABELS, STATE_CONFIG as CLAIM_STATE_CONFIG } from './ClaimModal';
+export type { ClaimModalProps, ClaimItem, ClaimState, ModalSize } from './ClaimModal';
+
+// ConfettiExplosion
+export { ConfettiExplosion, useConfetti, DEFAULT_COLORS } from './ConfettiExplosion';
+export type {
+  ConfettiExplosionProps,
+  ConfettiParticle,
+  UseConfettiReturn,
+} from './ConfettiExplosion';

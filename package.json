@@ -1,6 +1,6 @@
 {
   "name": "@loyalteez/react-components",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "React components for building loyalty program interfaces with Loyalteez",
   "license": "MIT",
   "author": "Loyalteez Team",
@@ -24,7 +24,12 @@
     "tiers",
     "perks",
     "leaderboard",
-    "badges"
+    "badges",
+    "streaks",
+    "challenges",
+    "confetti",
+    "toast",
+    "modal"
   ],
   "type": "module",
   "main": "./dist/index.cjs",
