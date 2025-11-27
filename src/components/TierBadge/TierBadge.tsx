@@ -77,11 +77,7 @@ export const TierBadge = forwardRef<HTMLDivElement, TierBadgeProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          tierBadgeStyles({ size, animated }),
-          showShine && 'group',
-          className
-        )}
+        className={cn(tierBadgeStyles({ size, animated }), showShine && 'group', className)}
         style={{
           background: config.gradient,
           color: config.textColor,
@@ -91,21 +87,16 @@ export const TierBadge = forwardRef<HTMLDivElement, TierBadgeProps>(
         {...props}
       >
         {/* Icon */}
-        <span className={cn(tierIconStyles({ size }))}>
-          {IconComponent}
-        </span>
+        <span className={cn(tierIconStyles({ size }))}>{IconComponent}</span>
 
         {/* Label */}
         {showLabel && <span>{displayLabel}</span>}
 
         {/* Shine overlay */}
-        {showShine && (
-          <span className={cn(shineOverlayStyles({ active: true }))} />
-        )}
+        {showShine && <span className={cn(shineOverlayStyles({ active: true }))} />}
       </div>
     );
   }
 );
 
 TierBadge.displayName = 'TierBadge';
-

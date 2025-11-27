@@ -9,12 +9,12 @@
 :root,
 [data-theme='dark'] {
   /* Brand Colors (RGB values for alpha support) */
-  --ltz-cyan: 0 224 255;       /* #00E0FF - Primary brand cyan */
-  --ltz-purple: 108 51 234;    /* #6C33EA - Primary brand purple */
-  --ltz-pink: 255 63 164;      /* #FF3FA4 - Accent pink */
-  --ltz-green: 166 255 0;      /* #A6FF00 - Accent lime/green */
-  --ltz-navy: 10 12 28;        /* #0A0C1C - Dark background */
-  
+  --ltz-cyan: 0 224 255; /* #00E0FF - Primary brand cyan */
+  --ltz-purple: 108 51 234; /* #6C33EA - Primary brand purple */
+  --ltz-pink: 255 63 164; /* #FF3FA4 - Accent pink */
+  --ltz-green: 166 255 0; /* #A6FF00 - Accent lime/green */
+  --ltz-navy: 10 12 28; /* #0A0C1C - Dark background */
+
   /* Semantic aliases */
   --ltz-primary: var(--ltz-purple);
   --ltz-primary-light: var(--ltz-cyan);
@@ -29,9 +29,9 @@
   --ltz-tier-diamond: #b9f2ff;
 
   /* Background - Dark theme (default) */
-  --ltz-bg-primary: 10 12 28;    /* navy */
-  --ltz-bg-secondary: 26 29 46;  /* slightly lighter */
-  --ltz-bg-tertiary: 42 45 62;   /* card backgrounds */
+  --ltz-bg-primary: 10 12 28; /* navy */
+  --ltz-bg-secondary: 26 29 46; /* slightly lighter */
+  --ltz-bg-tertiary: 42 45 62; /* card backgrounds */
 
   /* Text */
   --ltz-text-primary: 255 255 255;
@@ -131,7 +131,9 @@
 
   .ltz-progress-bar--glow {
     background: linear-gradient(90deg, rgb(var(--ltz-cyan)), rgb(var(--ltz-purple)));
-    box-shadow: 0 0 10px rgb(var(--ltz-cyan) / 0.5), 0 0 20px rgb(var(--ltz-purple) / 0.3);
+    box-shadow:
+      0 0 10px rgb(var(--ltz-cyan) / 0.5),
+      0 0 20px rgb(var(--ltz-purple) / 0.3);
   }
 
   /* Progress bar shimmer effect */
@@ -150,7 +152,7 @@
   .ltz-badge {
     @apply inline-flex items-center gap-1.5 rounded-full font-semibold;
     @apply px-3 py-1 text-sm;
-    @apply backdrop-blur-sm border border-white/20;
+    @apply border border-white/20 backdrop-blur-sm;
   }
 
   .ltz-badge--sm {
@@ -220,7 +222,7 @@
 
   /* Glass effect */
   .ltz-glass {
-    @apply backdrop-blur-md border;
+    @apply border backdrop-blur-md;
     background: rgb(var(--ltz-bg-primary) / 0.8);
     border-color: rgb(var(--ltz-border) / 0.5);
   }
@@ -234,7 +236,7 @@
   }
 
   .ltz-card--interactive {
-    @apply transition-all cursor-pointer;
+    @apply cursor-pointer transition-all;
     transition-duration: var(--ltz-duration);
   }
 
@@ -279,7 +281,12 @@
   }
 
   .ltz-bg-gradient-brand {
-    background: linear-gradient(135deg, rgb(var(--ltz-cyan)), rgb(var(--ltz-purple)), rgb(var(--ltz-pink)));
+    background: linear-gradient(
+      135deg,
+      rgb(var(--ltz-cyan)),
+      rgb(var(--ltz-purple)),
+      rgb(var(--ltz-pink))
+    );
   }
 
   /* Glow effects */
@@ -340,7 +347,8 @@
 }
 
 @keyframes ltz-pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -358,7 +366,8 @@
 }
 
 @keyframes ltz-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {

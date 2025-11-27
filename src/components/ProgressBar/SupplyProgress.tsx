@@ -82,19 +82,15 @@ export const SupplyProgress = forwardRef<HTMLDivElement, SupplyProgressProps>(
       <div ref={ref} className={cn('space-y-2', className)}>
         {/* Header row */}
         <div className="flex items-center justify-between text-sm">
-          <span className="text-ltz-text-secondary font-medium">Availability</span>
+          <span className="font-medium text-ltz-text-secondary">Availability</span>
           <div className="flex items-center gap-2">
             {showRemaining && (
-              <span
-                className={cn(
-                  remainingBadgeStyles({ urgency: urgencyLevel })
-                )}
-              >
+              <span className={cn(remainingBadgeStyles({ urgency: urgencyLevel }))}>
                 {isSoldOut ? (
                   'Sold Out'
                 ) : (
                   <>
-                    <span className="font-bold text-base">{remaining}</span>
+                    <span className="text-base font-bold">{remaining}</span>
                     <span>remaining</span>
                   </>
                 )}
@@ -126,4 +122,3 @@ export const SupplyProgress = forwardRef<HTMLDivElement, SupplyProgressProps>(
 );
 
 SupplyProgress.displayName = 'SupplyProgress';
-

@@ -6,4 +6,3 @@ export type {
   ProgressBarSize,
   SupplyProgressProps,
 } from './types';
-

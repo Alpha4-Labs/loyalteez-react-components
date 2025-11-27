@@ -60,17 +60,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         )}
         {...props}
       >
-        {icon && (
-          <span className={cn(badgeIconStyles({ size }))}>
-            {icon}
-          </span>
-        )}
+        {icon && <span className={cn(badgeIconStyles({ size }))}>{icon}</span>}
         {children}
-        {iconRight && (
-          <span className={cn(badgeIconStyles({ size }))}>
-            {iconRight}
-          </span>
-        )}
+        {iconRight && <span className={cn(badgeIconStyles({ size }))}>{iconRight}</span>}
       </span>
     );
   }
@@ -117,22 +109,18 @@ export const SoldOutBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'varian
 );
 SoldOutBadge.displayName = 'SoldOutBadge';
 
-export const NewBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'variant'>>(
-  (props, ref) => (
-    <Badge ref={ref} variant="new" glow {...props}>
-      {props.children || 'New'}
-    </Badge>
-  )
-);
+export const NewBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'variant'>>((props, ref) => (
+  <Badge ref={ref} variant="new" glow {...props}>
+    {props.children || 'New'}
+  </Badge>
+));
 NewBadge.displayName = 'NewBadge';
 
-export const HotBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'variant'>>(
-  (props, ref) => (
-    <Badge ref={ref} variant="hot" glow {...props}>
-      {props.children || 'Hot'}
-    </Badge>
-  )
-);
+export const HotBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'variant'>>((props, ref) => (
+  <Badge ref={ref} variant="hot" glow {...props}>
+    {props.children || 'Hot'}
+  </Badge>
+));
 HotBadge.displayName = 'HotBadge';
 
 export const LimitedBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'variant'>>(
@@ -152,4 +140,3 @@ export const EarlyAccessBadge = forwardRef<HTMLSpanElement, Omit<BadgeProps, 'va
   )
 );
 EarlyAccessBadge.displayName = 'EarlyAccessBadge';
-

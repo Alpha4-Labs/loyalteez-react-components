@@ -85,17 +85,11 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         {...props}
       >
         <div
-          className={cn(
-            progressContainerStyles({ size }),
-            'bg-ltz-bg-tertiary flex-1'
-          )}
+          className={cn(progressContainerStyles({ size }), 'flex-1 bg-ltz-bg-tertiary')}
           style={style}
         >
           <div
-            className={cn(
-              progressBarStyles({ variant, animated, size }),
-              barClassName
-            )}
+            className={cn(progressBarStyles({ variant, animated, size }), barClassName)}
             style={{
               width: `${percentage}%`,
               ...customGradientStyle,
@@ -110,9 +104,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 
         {/* Label */}
         {showLabel && labelText && (
-          <span className={cn(progressLabelStyles({ size, position: 'right' }))}>
-            {labelText}
-          </span>
+          <span className={cn(progressLabelStyles({ size, position: 'right' }))}>{labelText}</span>
         )}
       </div>
     );
@@ -120,4 +112,3 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 );
 
 ProgressBar.displayName = 'ProgressBar';
-

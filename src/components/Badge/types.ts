@@ -144,4 +144,3 @@ export const BADGE_CONFIGS: Record<BadgeVariant, BadgeConfig> = {
     glow: 'shadow-[0_0_15px_rgba(239,68,68,0.4)]',
   },
 };
-

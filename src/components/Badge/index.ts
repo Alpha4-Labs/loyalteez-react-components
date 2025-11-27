@@ -11,4 +11,3 @@ export {
 } from './Badge';
 export { BADGE_CONFIGS } from './types';
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeConfig } from './types';
-

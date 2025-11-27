@@ -94,4 +94,3 @@ export interface SupplyProgressProps extends Omit<ProgressBarProps, 'value' | 'm
    */
   onUrgency?: () => void;
 }
-

@@ -56,4 +56,3 @@ export const shineOverlayStyles = cva(
     },
   }
 );
-

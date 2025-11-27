@@ -89,4 +89,3 @@ export const TIER_CONFIG: Record<TierLevel, TierConfig> = {
     textColor: '#0c4a6e',
   },
 };
-

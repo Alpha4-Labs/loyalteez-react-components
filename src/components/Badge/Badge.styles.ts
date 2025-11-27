@@ -1,10 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const badgeStyles = cva(
-  [
-    'inline-flex items-center gap-1.5 rounded-full font-semibold',
-    'transition-all duration-200',
-  ],
+  ['inline-flex items-center gap-1.5 rounded-full font-semibold', 'transition-all duration-200'],
   {
     variants: {
       size: {
@@ -53,4 +50,3 @@ export const badgeIconStyles = cva('flex-shrink-0', {
     size: 'md',
   },
 });
-

@@ -19,8 +19,29 @@ export {
   EarlyAccessBadge,
   BADGE_CONFIGS,
 } from './components/Badge';
+
+// PerkCard (Composable)
+export {
+  PerkCard,
+  PerkCardNamespace,
+  PerkCardRoot,
+  PerkCardImage,
+  PerkCardContent,
+  PerkCardBrand,
+  PerkCardTitle,
+  PerkCardDescription,
+  PerkCardTags,
+  PerkCardSupply,
+  PerkCardPrice,
+  PerkCardBadges,
+  PerkCardFavoriteButton,
+  PerkCardActions,
+  PerkCardSpacer,
+  usePerkCard,
+  usePerkCardOptional,
+} from './components/PerkCard';
+
 // export { RewardToast } from './components/RewardToast';
-// export { PerkCard } from './components/PerkCard';
 
 // ============================================
 // Headless Hooks
@@ -50,16 +71,25 @@ export type {
   SupplyProgressProps,
 } from './components/ProgressBar';
 
-export type {
-  TierBadgeProps,
-  TierLevel,
-  TierBadgeSize,
-  TierConfig,
-} from './components/TierBadge';
+export type { TierBadgeProps, TierLevel, TierBadgeSize, TierConfig } from './components/TierBadge';
+
+export type { BadgeProps, BadgeVariant, BadgeSize, BadgeConfig } from './components/Badge';
 
 export type {
-  BadgeProps,
-  BadgeVariant,
-  BadgeSize,
-  BadgeConfig,
-} from './components/Badge';
+  PerkCardProps,
+  PerkCardRootProps,
+  PerkCardVariant,
+  PerkCardSize,
+  PerkData,
+  ClaimState,
+  PerkCardImageProps,
+  PerkCardBrandProps,
+  PerkCardTitleProps,
+  PerkCardDescriptionProps,
+  PerkCardTagsProps,
+  PerkCardPriceProps,
+  PerkCardSupplyProps,
+  PerkCardBadgesProps,
+  PerkCardFavoriteButtonProps,
+  PerkCardActionsProps,
+} from './components/PerkCard';
