@@ -6,8 +6,43 @@ export type {
   UseBalanceDisplayReturn,
 } from './BalanceDisplay';
 
-// TODO: Phase 1 components to be added
-// export { ProgressBar, useProgressBar } from './ProgressBar';
-// export { TierBadge } from './TierBadge';
+// Progress Components
+export { ProgressBar, SupplyProgress } from './ProgressBar';
+export type {
+  ProgressBarProps,
+  ProgressBarVariant,
+  ProgressBarSize,
+  SupplyProgressProps,
+} from './ProgressBar';
+
+// Badge Components
+export { TierBadge, TIER_CONFIG } from './TierBadge';
+export type {
+  TierBadgeProps,
+  TierLevel,
+  TierBadgeSize,
+  TierConfig,
+} from './TierBadge';
+
+export {
+  Badge,
+  FeaturedBadge,
+  SponsoredBadge,
+  PremiumBadge,
+  SoldOutBadge,
+  NewBadge,
+  HotBadge,
+  LimitedBadge,
+  EarlyAccessBadge,
+  BADGE_CONFIGS,
+} from './Badge';
+export type {
+  BadgeProps,
+  BadgeVariant,
+  BadgeSize,
+  BadgeConfig,
+} from './Badge';
+
+// TODO: More components to be added
 // export { RewardToast, useToast } from './RewardToast';
 // export { PerkCard } from './PerkCard';

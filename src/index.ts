@@ -5,8 +5,20 @@
 // Components
 // ============================================
 export { BalanceDisplay } from './components/BalanceDisplay';
-// export { ProgressBar } from './components/ProgressBar';
-// export { TierBadge } from './components/TierBadge';
+export { ProgressBar, SupplyProgress } from './components/ProgressBar';
+export { TierBadge, TIER_CONFIG } from './components/TierBadge';
+export {
+  Badge,
+  FeaturedBadge,
+  SponsoredBadge,
+  PremiumBadge,
+  SoldOutBadge,
+  NewBadge,
+  HotBadge,
+  LimitedBadge,
+  EarlyAccessBadge,
+  BADGE_CONFIGS,
+} from './components/Badge';
 // export { RewardToast } from './components/RewardToast';
 // export { PerkCard } from './components/PerkCard';
 
@@ -14,7 +26,6 @@ export { BalanceDisplay } from './components/BalanceDisplay';
 // Headless Hooks
 // ============================================
 export { useBalanceDisplay } from './components/BalanceDisplay';
-// export { useProgressBar } from './components/ProgressBar';
 // export { useToast } from './components/RewardToast';
 
 // ============================================
@@ -31,7 +42,24 @@ export type {
   UseBalanceDisplayOptions,
   UseBalanceDisplayReturn,
 } from './components/BalanceDisplay';
-// export type { ProgressBarProps } from './components/ProgressBar';
-// export type { TierBadgeProps } from './components/TierBadge';
-// export type { RewardToastProps } from './components/RewardToast';
-// export type { PerkCardProps } from './components/PerkCard';
+
+export type {
+  ProgressBarProps,
+  ProgressBarVariant,
+  ProgressBarSize,
+  SupplyProgressProps,
+} from './components/ProgressBar';
+
+export type {
+  TierBadgeProps,
+  TierLevel,
+  TierBadgeSize,
+  TierConfig,
+} from './components/TierBadge';
+
+export type {
+  BadgeProps,
+  BadgeVariant,
+  BadgeSize,
+  BadgeConfig,
+} from './components/Badge';
