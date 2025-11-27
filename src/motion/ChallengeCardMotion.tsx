@@ -96,7 +96,11 @@ function AnimatedProgressBar({
   return (
     <div className={cn(challengeProgressBarStyles({ size: size as 'sm' | 'md' | 'lg' }))}>
       <motion.div
-        className={cn(challengeProgressFillStyles({ status: status as 'active' | 'completed' | 'expired' | 'locked' }))}
+        className={cn(
+          challengeProgressFillStyles({
+            status: status as 'active' | 'completed' | 'expired' | 'locked',
+          })
+        )}
         style={{ width }}
         initial={{ width: 0 }}
         transition={{ duration: 0.5 }}
@@ -420,4 +424,3 @@ export const ChallengeCardMotion = forwardRef<HTMLDivElement, ChallengeCardProps
 );
 
 ChallengeCardMotion.displayName = 'ChallengeCardMotion';
-

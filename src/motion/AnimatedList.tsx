@@ -210,9 +210,10 @@ export const AnimatedList = forwardRef<HTMLDivElement, AnimatedListProps>(
           variants={variants}
           transition={{
             ...baseTransition,
-            duration: typeof baseTransition === 'object' && 'duration' in baseTransition
-              ? baseTransition.duration
-              : duration,
+            duration:
+              typeof baseTransition === 'object' && 'duration' in baseTransition
+                ? baseTransition.duration
+                : duration,
           }}
         >
           {cloneElement(childElement)}
@@ -292,4 +293,3 @@ export const AnimatedItem = forwardRef<HTMLDivElement, AnimatedItemProps>(
 );
 
 AnimatedItem.displayName = 'AnimatedItem';
-

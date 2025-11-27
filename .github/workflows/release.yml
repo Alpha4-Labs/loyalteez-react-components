@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -39,7 +40,17 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Check for changesets
+        id: changesets-check
+        run: |
+          if [ -d ".changeset" ] && [ "$(ls -A .changeset/*.md 2>/dev/null | grep -v README.md | wc -l)" -gt 0 ]; then
+            echo "has_changesets=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changesets=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create Release Pull Request or Publish
+        if: steps.changesets-check.outputs.has_changesets == 'true'
         id: changesets
         uses: changesets/action@v1
         with:
@@ -52,3 +63,15 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: No changesets found
+        if: steps.changesets-check.outputs.has_changesets == 'false'
+        run: |
+          echo "ℹ️ No changesets found - skipping release"
+          echo ""
+          echo "To create a release:"
+          echo "  1. Run: pnpm changeset"
+          echo "  2. Commit the changeset file"
+          echo "  3. Push to main branch"
+          echo ""
+          echo "Or publish manually:"
+          echo "  pnpm publish --access public --no-git-checks"

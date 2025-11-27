@@ -261,7 +261,9 @@ export const StreakCounterMotion = forwardRef<HTMLDivElement, StreakCounterProps
         <AnimatePresence>
           {breakWarning?.show && (
             <motion.div
-              className={cn(breakWarningStyles({ size, urgent: (breakWarning.hoursRemaining ?? 24) <= 4 }))}
+              className={cn(
+                breakWarningStyles({ size, urgent: (breakWarning.hoursRemaining ?? 24) <= 4 })
+              )}
               initial={{ opacity: 0, y: 10, scale: 0.9 }}
               animate={{
                 opacity: 1,
@@ -293,4 +295,3 @@ export const StreakCounterMotion = forwardRef<HTMLDivElement, StreakCounterProps
 );
 
 StreakCounterMotion.displayName = 'StreakCounterMotion';
-

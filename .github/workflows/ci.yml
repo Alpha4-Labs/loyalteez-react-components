@@ -67,7 +67,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
+        continue-on-error: true
 
   build:
     name: Build
@@ -89,16 +89,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build library
         run: pnpm build
 
-      - name: Build Storybook
-        run: pnpm build-storybook
-
-      - name: Upload Storybook artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: storybook-static
-          path: storybook-static/
+          name: dist
+          path: dist/
           retention-days: 7
-

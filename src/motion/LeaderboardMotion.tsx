@@ -17,7 +17,11 @@ import {
   currentUserCardStyles,
 } from '@/components/Leaderboard/Leaderboard.styles';
 import { MEDAL_COLORS } from '@/components/Leaderboard/types';
-import type { LeaderboardProps, LeaderboardEntry, LeaderboardSize } from '@/components/Leaderboard/types';
+import type {
+  LeaderboardProps,
+  LeaderboardEntry,
+  LeaderboardSize,
+} from '@/components/Leaderboard/types';
 
 // Animated Medal Component
 function AnimatedMedal({ rank, size }: { rank: 1 | 2 | 3; size: LeaderboardSize }) {
@@ -87,13 +91,7 @@ function AnimatedScore({ score, size }: { score: number; size: LeaderboardSize }
 }
 
 // Rank change indicator with animation
-function AnimatedRankChange({
-  direction,
-  change,
-}: {
-  direction: 'up' | 'down';
-  change: number;
-}) {
+function AnimatedRankChange({ direction, change }: { direction: 'up' | 'down'; change: number }) {
   return (
     <motion.div
       className={cn(rankChangeStyles({ direction }))}
@@ -145,7 +143,8 @@ function LeaderboardEntryRow({
   showAvatars: boolean;
   isCurrentUser: boolean;
 }) {
-  const rankVariant = entry.rank === 1 ? 1 : entry.rank === 2 ? 2 : entry.rank === 3 ? 3 : 'default';
+  const rankVariant =
+    entry.rank === 1 ? 1 : entry.rank === 2 ? 2 : entry.rank === 3 ? 3 : 'default';
   const rankChange = entry.previousRank !== undefined ? entry.previousRank - entry.rank : 0;
 
   return (
@@ -188,7 +187,7 @@ function LeaderboardEntryRow({
           {entry.avatar ? (
             <img src={entry.avatar} alt={entry.name} className="h-full w-full object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ltz-purple to-ltz-cyan text-sm font-bold text-white">
+            <div className="from-ltz-purple to-ltz-cyan flex h-full w-full items-center justify-center bg-gradient-to-br text-sm font-bold text-white">
               {entry.name.charAt(0).toUpperCase()}
             </div>
           )}
@@ -269,9 +268,8 @@ export const LeaderboardMotion = forwardRef<HTMLDivElement, LeaderboardProps>(
       ? displayedEntries.some((e) => e.id === currentUserId)
       : false;
 
-    const currentUserData = currentUserId && !currentUserInList
-      ? entries.find((e) => e.id === currentUserId)
-      : null;
+    const currentUserData =
+      currentUserId && !currentUserInList ? entries.find((e) => e.id === currentUserId) : null;
 
     if (entries.length === 0) {
       return (
@@ -290,8 +288,18 @@ export const LeaderboardMotion = forwardRef<HTMLDivElement, LeaderboardProps>(
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', stiffness: 200 }}
               >
-                <svg className="mb-3 h-12 w-12 text-ltz-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <svg
+                  className="mb-3 h-12 w-12 text-ltz-text-muted"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
                 </svg>
                 <p className="font-medium">No rankings yet</p>
                 <p className="text-sm text-ltz-text-muted">Be the first to earn points!</p>
@@ -354,9 +362,13 @@ export const LeaderboardMotion = forwardRef<HTMLDivElement, LeaderboardProps>(
                 whileHover={{ scale: 1.1 }}
               >
                 {currentUserData.avatar ? (
-                  <img src={currentUserData.avatar} alt={currentUserData.name} className="h-full w-full object-cover" />
+                  <img
+                    src={currentUserData.avatar}
+                    alt={currentUserData.name}
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ltz-purple to-ltz-cyan text-sm font-bold text-white">
+                  <div className="from-ltz-purple to-ltz-cyan flex h-full w-full items-center justify-center bg-gradient-to-br text-sm font-bold text-white">
                     {currentUserData.name.charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -368,7 +380,7 @@ export const LeaderboardMotion = forwardRef<HTMLDivElement, LeaderboardProps>(
 
               <div className="flex flex-shrink-0 flex-col items-end">
                 <AnimatedScore score={currentUserData.score} size={size} />
-                <span className="text-sm font-bold text-ltz-purple">#{currentUserData.rank}</span>
+                <span className="text-ltz-purple text-sm font-bold">#{currentUserData.rank}</span>
               </div>
             </motion.div>
           )}
@@ -379,4 +391,3 @@ export const LeaderboardMotion = forwardRef<HTMLDivElement, LeaderboardProps>(
 );
 
 LeaderboardMotion.displayName = 'LeaderboardMotion';
-
