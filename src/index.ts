@@ -227,3 +227,95 @@ export type {
   ViewMode,
   SortDirection,
 } from './components/FilterBar';
+
+// ============================================
+// Effects Module
+// ============================================
+export {
+  // Glow Effects
+  GlowEffect,
+  PulseGlow,
+  HeartbeatGlow,
+  FlickerGlow,
+  ReactiveGlow,
+  LegendaryGlow,
+  RainbowGlow,
+  // Shimmer Effects
+  ShimmerEffect,
+  MetallicShimmer,
+  HolographicShimmer,
+  GoldShimmer,
+  DiamondShimmer,
+  NeonShimmer,
+  FireShimmer,
+  FrostShimmer,
+  // Particle Effects
+  ParticleEffect,
+  CoinBurst,
+  StarBurst,
+  EmberEffect,
+  SparkleEffect,
+  ConfettiBurst,
+  SnowEffect,
+  HeartBurst,
+  // Shake Effects
+  ShakeEffect,
+  ErrorShake,
+  ImpactShake,
+  VibrateEffect,
+  EarthquakeEffect,
+  useShake,
+  // Count Effects
+  CountEffect,
+  SlotCounter,
+  FlipCounter,
+  CascadeCounter,
+  ScrambleCounter,
+  useCountUp,
+  // Tone System
+  ToneProvider,
+  useTone,
+  useRewardEffect,
+  useMilestoneEffect,
+  useErrorEffect,
+  TONES,
+  // Presets & Constants
+  EFFECT_PRESETS,
+  GLOW_COLORS,
+  PARTICLE_COLORS,
+} from './effects';
+
+// ============================================
+// Types - Effects
+// ============================================
+export type {
+  // Base types
+  EffectIntensity,
+  EffectSpeed,
+  BaseEffectProps,
+  // Glow
+  GlowEffectProps,
+  GlowColor,
+  GlowPattern,
+  // Shimmer
+  ShimmerEffectProps,
+  ShimmerStyle,
+  ShimmerDirection,
+  // Particles
+  ParticleEffectProps,
+  ParticleShape,
+  ParticleMotion,
+  Particle,
+  // Shake
+  ShakeEffectProps,
+  ShakePattern,
+  // Count
+  CountEffectProps,
+  CountStyle,
+  // Presets
+  EffectPreset,
+  // Tones
+  ToneId,
+  ToneConfig,
+  ToneProviderProps,
+} from './effects';

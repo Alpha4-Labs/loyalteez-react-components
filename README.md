@@ -12,11 +12,12 @@
 
 ### Features
 
-- 🎨 **Beautiful defaults** — Dark theme with customizable CSS variables
+- 🎮 **Game-like effects** — Glows, shimmers, particles, shakes, dramatic reveals
+- 🎨 **Beautiful defaults** — Dark theme with customizable CSS variables  
+- 🎭 **Tone system** — 10 theme presets (arcade, casino, cyberpunk, fantasy...)
 - 🧩 **Composable** — Use individual components or compose your own
 - 🪝 **Headless hooks** — Full control when you need custom UI
 - ⚡ **Lightweight** — Tree-shakeable, minimal dependencies
-- 🎭 **Animated** — Smooth CSS animations with optional Framer Motion enhancement
 - 📱 **Responsive** — Mobile-first design
 - ♿ **Accessible** — WCAG 2.1 AA compliant
 - 🔥 **Gamification** — Streaks, leaderboards, challenges, confetti!
@@ -114,6 +115,16 @@ function MyLoyaltyWidget() {
 | `Skeleton` | Loading skeletons for cards, lists, balance displays |
 | `Tooltip` | Smart-positioned tooltips with arrow |
 | `FilterBar` | Filter dropdowns, search, sort, view toggle |
+
+### Effects Module 🎮
+| Effect | Description |
+|--------|-------------|
+| `GlowEffect` | Pulsing, breathing, heartbeat, flicker, rainbow glows |
+| `ShimmerEffect` | Metallic, holographic, gold, frost, fire, neon, diamond shimmers |
+| `ParticleEffect` | Coins, stars, embers, sparkles, confetti, snow, hearts |
+| `ShakeEffect` | Horizontal, vertical, rotational, impact, vibrate, earthquake |
+| `CountEffect` | Simple, slot machine, flip, cascade, scramble, typewriter |
+| `ToneProvider` | Theme system with 10 presets (arcade, casino, cyberpunk, etc.) |
 
 ## Examples
 
@@ -310,6 +321,164 @@ import {
 Requires `framer-motion` as a peer dependency:
 ```bash
 pnpm add framer-motion
+```
+
+## Effects Module 🎮
+
+The Effects module provides game-like visual feedback for any UI element.
+
+### Glow Effects
+
+```tsx
+import { GlowEffect, PulseGlow, LegendaryGlow, RainbowGlow } from '@loyalteez/react-components';
+
+// Pulsing cyan glow
+<GlowEffect color="cyan" pattern="pulse" intensity="normal">
+  <Card>Content</Card>
+</GlowEffect>
+
+// Heartbeat gold glow for rewards
+<GlowEffect color="gold" pattern="heartbeat" intensity="intense">
+  <Badge>Premium</Badge>
+</GlowEffect>
+
+// Legendary rainbow glow
+<LegendaryGlow>
+  <PerkCard perk={legendaryPerk} />
+</LegendaryGlow>
+```
+
+### Shimmer Effects
+
+```tsx
+import { ShimmerEffect, HolographicShimmer, GoldShimmer } from '@loyalteez/react-components';
+
+// Holographic on hover
+<ShimmerEffect variant="holographic" trigger="hover">
+  <Badge>New</Badge>
+</ShimmerEffect>
+
+// Auto gold shimmer for rewards
+<GoldShimmer trigger="auto" delay={3000}>
+  <RewardCard />
+</GoldShimmer>
+```
+
+### Particle Effects
+
+```tsx
+import { ParticleEffect, CoinBurst, StarBurst, EmberEffect } from '@loyalteez/react-components';
+
+// Coin collect on reward
+<CoinBurst active={showReward} count={20} onComplete={hideReward} />
+
+// Continuous ember particles
+<EmberEffect active continuous emitRate={10}>
+  <StreakCounter streak={14} />
+</EmberEffect>
+
+// Custom particle configuration
+<ParticleEffect
+  active={celebrating}
+  shape="star"
+  motion="burst"
+  colors={['#FFD700', '#FFA500', '#FF6B35']}
+  count={50}
+  intensity="intense"
+/>
+```
+
+### Shake Effects
+
+```tsx
+import { ShakeEffect, ErrorShake, ImpactShake, useShake } from '@loyalteez/react-components';
+
+// Error shake on validation failure
+<ErrorShake trigger={hasError}>
+  <Input />
+</ErrorShake>
+
+// Impact shake on achievement unlock
+<ImpactShake trigger={unlocked} intensity="intense">
+  <AchievementBadge />
+</ImpactShake>
+
+// Imperative shake hook
+function Component() {
+  const { shake, props } = useShake({ pattern: 'earthquake' });
+  return (
+    <ShakeEffect {...props}>
+      <button onClick={shake}>Trigger!</button>
+    </ShakeEffect>
+  );
+}
+```
+
+### Count Effects (Dramatic Number Reveals)
+
+```tsx
+import { CountEffect, SlotCounter, ScrambleCounter, useCountUp } from '@loyalteez/react-components';
+
+// Slot machine reveal
+<SlotCounter value={jackpot} intensity="extreme" showDelta />
+
+// Scramble then settle
+<ScrambleCounter value={score} from={previousScore} easing="bounce" />
+
+// Imperative count hook
+function PointsDisplay() {
+  const { countTo, props } = useCountUp();
+  return (
+    <>
+      <CountEffect {...props} />
+      <button onClick={() => countTo(1000)}>Add Points</button>
+    </>
+  );
+}
+```
+
+### Tone System (Theme Presets)
+
+```tsx
+import { ToneProvider, useTone, TONES } from '@loyalteez/react-components';
+
+// Wrap your app with a tone
+<ToneProvider tone="arcade">
+  <App />
+</ToneProvider>
+
+// Available tones:
+// - default   (Loyalteez signature)
+// - arcade    (bright, bouncy, retro)
+// - casino    (gold, luxury, high-stakes)
+// - cyberpunk (neon, glitch, dark)
+// - minimal   (clean, subtle, professional)
+// - playful   (rounded, colorful, fun)
+// - competitive (sports/esports energy)
+// - fantasy   (RPG, magical, mystical)
+// - scifi     (futuristic, tech, sleek)
+// - retro     (80s/90s nostalgia)
+
+// Access current tone
+function Component() {
+  const { tone, toneId, setTone } = useTone();
+  return <button onClick={() => setTone('cyberpunk')}>Go Cyber</button>;
+}
+```
+
+### Effect Presets
+
+```tsx
+import { EFFECT_PRESETS } from '@loyalteez/react-components';
+
+// Pre-configured effect combos:
+// - coinCollect, levelUp, milestone, streak
+// - success, error, warning
+// - common, rare, epic, legendary, mythic
+
+// Use with components:
+<GlowEffect {...EFFECT_PRESETS.legendary.glow} />
+<ParticleEffect {...EFFECT_PRESETS.coinCollect.particles} />
 ```
 
 ## Utilities
