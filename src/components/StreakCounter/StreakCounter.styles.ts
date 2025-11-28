@@ -141,7 +141,7 @@ export const milestoneContainerStyles = cva('flex items-center gap-1', {
   },
 });
 
-export const milestoneIndicatorStyles = cva('rounded-full transition-all duration-300', {
+export const milestoneIndicatorStyles = cva('rounded-full transition-all duration-300 border', {
   variants: {
     size: {
       sm: 'w-1.5 h-1.5',
@@ -150,11 +150,11 @@ export const milestoneIndicatorStyles = cva('rounded-full transition-all duratio
       xl: 'w-3 h-3',
     },
     reached: {
-      true: 'bg-orange-400 shadow-sm shadow-orange-400/50',
-      false: 'bg-ltz-bg-tertiary',
+      true: 'bg-orange-400 border-orange-400 shadow-sm shadow-orange-400/50',
+      false: 'bg-white/10 border-white/20',
     },
     current: {
-      true: 'ring-2 ring-orange-400 ring-offset-1 ring-offset-ltz-bg-primary',
+      true: 'ring-2 ring-orange-400 ring-offset-1 ring-offset-transparent',
       false: '',
     },
   },

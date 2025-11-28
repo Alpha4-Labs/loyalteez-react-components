@@ -73,16 +73,16 @@ export const loyalteezPreset: Partial<Config> = {
         'ltz-glow-pink': 'var(--ltz-shadow-glow-pink)',
       },
       animation: {
-        'ltz-fade-in': 'ltz-fade-in var(--ltz-duration) var(--ltz-easing)',
-        'ltz-slide-in-right': 'ltz-slide-in-right var(--ltz-duration) var(--ltz-easing)',
-        'ltz-slide-in-up': 'ltz-slide-in-up var(--ltz-duration) var(--ltz-easing)',
+        'ltz-fade-in': 'ltz-fade-in 0.3s ease-out forwards',
+        'ltz-slide-in-right': 'ltz-slide-in-right 0.4s ease-out forwards',
+        'ltz-slide-in-up': 'ltz-slide-in-up 0.3s ease-out forwards',
         'ltz-count-up': 'ltz-count-up 0.3s ease-out',
-        'ltz-progress-fill': 'ltz-progress-fill 1s var(--ltz-easing) forwards',
+        'ltz-progress-fill': 'ltz-progress-fill 1s ease-out forwards',
         'ltz-pulse-glow': 'ltz-pulse-glow 2s ease-in-out infinite',
         'ltz-shimmer': 'ltz-shimmer 1.5s infinite',
         'ltz-shine': 'ltz-shine 2s infinite',
         'ltz-float': 'ltz-float 3s ease-in-out infinite',
-        'ltz-bounce-in': 'ltz-bounce-in 0.5s var(--ltz-easing-bounce)',
+        'ltz-bounce-in': 'ltz-bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
       },
       keyframes: {
         'ltz-fade-in': {

@@ -119,8 +119,7 @@ function LeaderboardEntryRow({
           isTopThree,
           clickable: !!onClick,
         }),
-        animated && 'animate-ltz-slide-in-up opacity-0',
-        animated && '[animation-fill-mode:forwards]'
+        animated && 'animate-ltz-slide-in-up'
       )}
       style={animated ? { animationDelay: `${animationDelay}ms` } : undefined}
       onClick={onClick}

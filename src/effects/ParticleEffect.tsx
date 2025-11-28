@@ -1,15 +1,20 @@
 'use client';
 
-import { useRef, useEffect, useCallback, forwardRef, useMemo } from 'react';
+import { useRef, useEffect, useCallback, forwardRef, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/utils/cn';
 import type { ParticleEffectProps, Particle, ParticleMotion } from './types';
 import { PARTICLE_COLORS } from './types';
 
+// Canvas expansion factor - how much larger the canvas should be than the container
+// This allows particles to escape the original bounds
+const CANVAS_EXPANSION = 3; // 3x the container size in each direction
+
 // Default configuration
 const DEFAULT_COLORS = PARTICLE_COLORS.neon;
-const DEFAULT_SIZE_RANGE: [number, number] = [4, 12];
+const DEFAULT_SIZE_RANGE: [number, number] = [6, 16];
 
-// Physics configuration per motion type
+// Physics configuration per motion type - ENHANCED for dramatic effects
 const MOTION_CONFIG: Record<
   ParticleMotion,
   {
@@ -18,63 +23,75 @@ const MOTION_CONFIG: Record<
     gravity: number;
     friction: number;
     rotationSpeed: number;
+    spread?: number; // Additional random spread
+    scaleOverLife?: boolean; // Shrink over lifetime
+    wobble?: number; // Side-to-side wobble
   }
 > = {
   rise: {
-    velocityRange: [2, 5],
-    angleRange: [250, 290], // Mostly upward
-    gravity: -0.02, // Slight upward drift
-    friction: 0.99,
-    rotationSpeed: 3,
+    velocityRange: [4, 10],
+    angleRange: [230, 310], // Wider spread upward
+    gravity: -0.08, // Stronger upward drift
+    friction: 0.985,
+    rotationSpeed: 5,
+    spread: 2,
+    scaleOverLife: true,
   },
   fall: {
-    velocityRange: [1, 3],
-    angleRange: [70, 110], // Downward
-    gravity: 0.15,
-    friction: 0.995,
-    rotationSpeed: 2,
+    velocityRange: [2, 5],
+    angleRange: [60, 120], // Downward with spread
+    gravity: 0.2,
+    friction: 0.99,
+    rotationSpeed: 3,
+    wobble: 0.5,
   },
   burst: {
-    velocityRange: [5, 15],
+    velocityRange: [8, 20],
     angleRange: [0, 360], // All directions
-    gravity: 0.1,
-    friction: 0.97,
-    rotationSpeed: 8,
+    gravity: 0.15,
+    friction: 0.96,
+    rotationSpeed: 12,
+    spread: 3,
+    scaleOverLife: true,
   },
   orbit: {
-    velocityRange: [2, 4],
+    velocityRange: [3, 6],
     angleRange: [0, 360],
     gravity: 0,
     friction: 1,
-    rotationSpeed: 1,
+    rotationSpeed: 2,
   },
   swirl: {
-    velocityRange: [3, 6],
+    velocityRange: [5, 10],
     angleRange: [0, 360],
-    gravity: -0.01,
-    friction: 0.99,
-    rotationSpeed: 5,
+    gravity: -0.02,
+    friction: 0.985,
+    rotationSpeed: 8,
+    spread: 1.5,
   },
   drift: {
-    velocityRange: [0.5, 2],
+    velocityRange: [1, 3],
     angleRange: [0, 360],
     gravity: 0,
-    friction: 0.998,
-    rotationSpeed: 1,
+    friction: 0.995,
+    rotationSpeed: 2,
+    wobble: 1,
   },
   fountain: {
-    velocityRange: [8, 15],
-    angleRange: [250, 290], // Upward
-    gravity: 0.25,
-    friction: 0.99,
-    rotationSpeed: 4,
+    velocityRange: [12, 22],
+    angleRange: [240, 300], // Wider fountain spread
+    gravity: 0.35,
+    friction: 0.985,
+    rotationSpeed: 6,
+    spread: 4,
+    scaleOverLife: true,
   },
   attract: {
-    velocityRange: [3, 8],
+    velocityRange: [5, 12],
     angleRange: [0, 360],
     gravity: 0,
-    friction: 0.95,
-    rotationSpeed: 2,
+    friction: 0.92,
+    rotationSpeed: 4,
   },
 };
 
@@ -100,47 +117,105 @@ function renderShape(ctx: CanvasRenderingContext2D, particle: Particle) {
       ctx.fillRect(-halfSize, -halfSize, size, size);
       break;
 
-    case 'star':
-      drawStar(ctx, 0, 0, 5, halfSize, halfSize / 2);
+    case 'star': {
+      // Glowing star with gradient
+      const starGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, halfSize);
+      starGradient.addColorStop(0, '#FFFFFF');
+      starGradient.addColorStop(0.3, particle.color);
+      starGradient.addColorStop(1, particle.color);
+      ctx.fillStyle = starGradient;
+      
+      // Add glow effect
+      ctx.shadowColor = particle.color;
+      ctx.shadowBlur = halfSize * 0.5;
+      
+      drawStar(ctx, 0, 0, 5, halfSize, halfSize / 2.5);
+      ctx.shadowBlur = 0;
       break;
+    }
 
-    case 'coin':
-      // Gold coin with highlight
+    case 'coin': {
+      // Beautiful 3D gold coin with shine and depth
+      const coinGradient = ctx.createRadialGradient(
+        -halfSize * 0.3, -halfSize * 0.3, 0,
+        0, 0, halfSize
+      );
+      coinGradient.addColorStop(0, '#FFEC8B');
+      coinGradient.addColorStop(0.3, '#FFD700');
+      coinGradient.addColorStop(0.6, '#DAA520');
+      coinGradient.addColorStop(1, '#B8860B');
+      
+      // Main coin body
+      ctx.fillStyle = coinGradient;
       ctx.beginPath();
-      ctx.ellipse(0, 0, halfSize, halfSize * 0.8, 0, 0, Math.PI * 2);
+      ctx.arc(0, 0, halfSize, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = 'rgba(255, 255, 200, 0.5)';
+      
+      // Inner ring
+      ctx.strokeStyle = '#8B7500';
+      ctx.lineWidth = halfSize * 0.15;
+      ctx.beginPath();
+      ctx.arc(0, 0, halfSize * 0.7, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      // Shine highlight
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
       ctx.beginPath();
       ctx.ellipse(
-        -halfSize * 0.3,
-        -halfSize * 0.3,
-        halfSize * 0.3,
-        halfSize * 0.2,
-        0.5,
+        -halfSize * 0.35,
+        -halfSize * 0.35,
+        halfSize * 0.25,
+        halfSize * 0.15,
+        -0.5,
         0,
         Math.PI * 2
       );
       ctx.fill();
+      
+      // Dollar sign or star symbol
+      ctx.fillStyle = '#8B7500';
+      ctx.font = `bold ${halfSize * 0.8}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('$', 0, halfSize * 0.05);
       break;
+    }
 
     case 'heart':
       drawHeart(ctx, 0, 0, size);
       break;
 
-    case 'spark':
-      // Four-pointed spark
+    case 'spark': {
+      // Brilliant four-pointed spark with glow
+      ctx.shadowColor = particle.color;
+      ctx.shadowBlur = halfSize;
+      
+      // Outer glow
+      const sparkGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, halfSize);
+      sparkGradient.addColorStop(0, '#FFFFFF');
+      sparkGradient.addColorStop(0.2, particle.color);
+      sparkGradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = sparkGradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, halfSize * 0.8, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Inner spark shape
+      ctx.fillStyle = '#FFFFFF';
       ctx.beginPath();
       ctx.moveTo(0, -halfSize);
-      ctx.lineTo(halfSize * 0.2, -halfSize * 0.2);
+      ctx.lineTo(halfSize * 0.12, -halfSize * 0.12);
       ctx.lineTo(halfSize, 0);
-      ctx.lineTo(halfSize * 0.2, halfSize * 0.2);
+      ctx.lineTo(halfSize * 0.12, halfSize * 0.12);
       ctx.lineTo(0, halfSize);
-      ctx.lineTo(-halfSize * 0.2, halfSize * 0.2);
+      ctx.lineTo(-halfSize * 0.12, halfSize * 0.12);
       ctx.lineTo(-halfSize, 0);
-      ctx.lineTo(-halfSize * 0.2, -halfSize * 0.2);
+      ctx.lineTo(-halfSize * 0.12, -halfSize * 0.12);
       ctx.closePath();
       ctx.fill();
+      ctx.shadowBlur = 0;
       break;
+    }
 
     case 'ember': {
       // Glowing ember
@@ -296,6 +371,8 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
     const animationFrameRef = useRef<number | null>(null);
     const lastEmitTimeRef = useRef<number>(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
+    const isRunningRef = useRef<boolean>(false);
+    const effectIdRef = useRef<number>(0);
 
     // Intensity multiplier
     const intensityMultiplier = useMemo(() => {
@@ -332,35 +409,48 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
     // Get motion config
     const motionConfig = MOTION_CONFIG[motion];
 
-    // Create a particle
+    // Create a particle with enhanced properties
     const createParticle = useCallback(
       (canvasWidth: number, canvasHeight: number): Particle => {
-        const angle =
-          (motionConfig.angleRange[0] +
-            Math.random() * (motionConfig.angleRange[1] - motionConfig.angleRange[0])) *
-          (Math.PI / 180);
+        // Add spread to the angle for more natural distribution
+        const spread = motionConfig.spread || 0;
+        const baseAngle =
+          motionConfig.angleRange[0] +
+          Math.random() * (motionConfig.angleRange[1] - motionConfig.angleRange[0]);
+        const angle = (baseAngle + (Math.random() - 0.5) * spread * 20) * (Math.PI / 180);
 
+        // Vary velocity more dramatically
+        const velocityVariance = 1 + (Math.random() - 0.5) * 0.6;
         const velocity =
           (motionConfig.velocityRange[0] +
             Math.random() * (motionConfig.velocityRange[1] - motionConfig.velocityRange[0])) *
           intensityMultiplier *
-          speedMultiplier;
+          speedMultiplier *
+          velocityVariance;
 
         const colorIndex = Math.floor(Math.random() * colors.length);
+        const baseSize = sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]);
+        
         return {
           id: Math.random(),
           x: canvasWidth * origin.x,
           y: canvasHeight * origin.y,
           vx: Math.cos(angle) * velocity,
           vy: Math.sin(angle) * velocity,
-          size: sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]),
+          size: baseSize,
           color: colors[colorIndex] ?? '#00E0FF',
           opacity: 1,
           rotation: Math.random() * 360,
           shape,
           life: 0,
-          maxLife: lifetime * (0.8 + Math.random() * 0.4),
+          maxLife: lifetime * (0.7 + Math.random() * 0.6),
           gravity: motionConfig.gravity * intensityMultiplier,
+          // Enhanced properties
+          initialSize: baseSize,
+          wobbleOffset: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.1 + Math.random() * 0.1,
+          scaleOverLife: motionConfig.scaleOverLife || false,
+          wobble: motionConfig.wobble || 0,
         };
       },
       [
@@ -375,9 +465,12 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
       ]
     );
 
-    // Animation loop
+    // Animation loop with enhanced effects
     const animate = useCallback(
-      (timestamp: number) => {
+      (timestamp: number, currentEffectId: number) => {
+        // Prevent running if this effect has been superseded
+        if (currentEffectId !== effectIdRef.current) return;
+        
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
@@ -400,8 +493,9 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
           // Update life
           particle.life += 16.67; // ~60fps
 
-          // Calculate life ratio
+          // Calculate life ratio (eased for smoother fade)
           const lifeRatio = particle.life / particle.maxLife;
+          const easedLife = lifeRatio * lifeRatio; // Quadratic ease
 
           // Apply physics based on motion type
           if (motion === 'orbit') {
@@ -409,7 +503,7 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
             const centerY = canvas.height * origin.y;
             const angle = Math.atan2(particle.y - centerY, particle.x - centerX);
             const distance = Math.hypot(particle.x - centerX, particle.y - centerY);
-            const orbitSpeed = 0.02 * speedMultiplier;
+            const orbitSpeed = 0.03 * speedMultiplier;
             particle.x = centerX + Math.cos(angle + orbitSpeed) * distance;
             particle.y = centerY + Math.sin(angle + orbitSpeed) * distance;
           } else if (motion === 'attract') {
@@ -419,16 +513,16 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
             const dy = centerY - particle.y;
             const distance = Math.hypot(dx, dy);
             if (distance > 10) {
-              particle.vx += (dx / distance) * 0.2;
-              particle.vy += (dy / distance) * 0.2;
+              particle.vx += (dx / distance) * 0.3;
+              particle.vy += (dy / distance) * 0.3;
             }
           } else if (motion === 'swirl') {
             const centerX = canvas.width * origin.x;
             const centerY = canvas.height * origin.y;
             const dx = particle.x - centerX;
             const dy = particle.y - centerY;
-            particle.vx += -dy * 0.001 * speedMultiplier;
-            particle.vy += dx * 0.001 * speedMultiplier;
+            particle.vx += -dy * 0.002 * speedMultiplier;
+            particle.vy += dx * 0.002 * speedMultiplier;
           }
 
           // Apply gravity and friction
@@ -436,18 +530,49 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
           particle.vx *= motionConfig.friction;
           particle.vy *= motionConfig.friction;
 
+          // Apply wobble effect for natural movement
+          const wobbleAmount = (particle as any).wobble || 0;
+          if (wobbleAmount > 0) {
+            const wobbleOffset = (particle as any).wobbleOffset || 0;
+            const wobbleSpeed = (particle as any).wobbleSpeed || 0.1;
+            particle.x += Math.sin(particle.life * wobbleSpeed + wobbleOffset) * wobbleAmount;
+          }
+
           // Update position
           particle.x += particle.vx * speedMultiplier;
           particle.y += particle.vy * speedMultiplier;
 
-          // Update rotation
-          particle.rotation += motionConfig.rotationSpeed * speedMultiplier;
+          // Update rotation (faster when moving fast)
+          const speed = Math.hypot(particle.vx, particle.vy);
+          particle.rotation += motionConfig.rotationSpeed * speedMultiplier * (0.5 + speed * 0.1);
 
-          // Fade out
-          particle.opacity = 1 - lifeRatio;
+          // Scale over life if enabled
+          const scaleOverLife = (particle as any).scaleOverLife;
+          const initialSize = (particle as any).initialSize || particle.size;
+          if (scaleOverLife) {
+            particle.size = initialSize * (1 - easedLife * 0.7);
+          }
 
-          // Draw
+          // Smooth fade out with easing
+          particle.opacity = Math.max(0, 1 - easedLife);
+
+          // Draw particle with trail effect for fast-moving particles
           if (particle.opacity > 0.01) {
+            // Draw trail for fast particles
+            if (speed > 5 && (shape === 'coin' || shape === 'star' || shape === 'spark')) {
+              const trailCount = Math.min(3, Math.floor(speed / 5));
+              for (let i = trailCount; i > 0; i--) {
+                const trailParticle = {
+                  ...particle,
+                  x: particle.x - particle.vx * i * 0.3,
+                  y: particle.y - particle.vy * i * 0.3,
+                  opacity: particle.opacity * (0.3 / i),
+                  size: particle.size * (1 - i * 0.15),
+                };
+                renderShape(ctx, trailParticle);
+              }
+            }
+            
             renderShape(ctx, particle);
             return true;
           }
@@ -456,8 +581,9 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
 
         // Continue animation
         if (particlesRef.current.length > 0 || continuous) {
-          animationFrameRef.current = requestAnimationFrame(animate);
+          animationFrameRef.current = requestAnimationFrame((ts) => animate(ts, currentEffectId));
         } else {
+          isRunningRef.current = false;
           onComplete?.();
         }
       },
@@ -470,40 +596,95 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
         motionConfig,
         onComplete,
         origin,
+        shape,
         speedMultiplier,
       ]
     );
 
-    // Start effect
+    // Start effect with proper guards
     const startEffect = useCallback(() => {
+      // Prevent multiple simultaneous effects
+      if (isRunningRef.current && !continuous) {
+        return;
+      }
+      
       const canvas = canvasRef.current;
       const container = containerRef.current;
       if (!canvas || !container) return;
 
-      // Size canvas to container
+      // Cancel any existing animation
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+
+      // Increment effect ID to invalidate any running animations
+      effectIdRef.current += 1;
+      const currentEffectId = effectIdRef.current;
+      isRunningRef.current = true;
+
+      // Get container position and size
       const rect = container.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      
+      // Make canvas larger to allow particles to escape bounds
+      const expandedWidth = Math.max(rect.width * CANVAS_EXPANSION, 300);
+      const expandedHeight = Math.max(rect.height * CANVAS_EXPANSION, 300);
+      
+      canvas.width = expandedWidth;
+      canvas.height = expandedHeight;
+      
+      // Store the offset for particle origin calculation
+      const offsetX = (expandedWidth - rect.width) / 2;
+      const offsetY = (expandedHeight - rect.height) / 2;
+      
+      // Update origin to account for expanded canvas
+      const adjustedOriginX = offsetX + rect.width * origin.x;
+      const adjustedOriginY = offsetY + rect.height * origin.y;
+
+      // Clear existing particles
+      particlesRef.current = [];
 
       // Create initial particles (for non-continuous)
       if (!continuous) {
-        particlesRef.current = Array.from({ length: count }, () =>
-          createParticle(canvas.width, canvas.height)
-        );
+        particlesRef.current = Array.from({ length: count }, () => {
+          const particle = createParticle(expandedWidth, expandedHeight);
+          // Adjust particle starting position to center of original container
+          particle.x = adjustedOriginX;
+          particle.y = adjustedOriginY;
+          return particle;
+        });
       }
 
-      // Start animation
+      // Start animation with the current effect ID
       lastEmitTimeRef.current = performance.now();
-      animationFrameRef.current = requestAnimationFrame(animate);
-    }, [animate, continuous, count, createParticle]);
+      animationFrameRef.current = requestAnimationFrame((ts) => animate(ts, currentEffectId));
+    }, [animate, continuous, count, createParticle, origin]);
 
-    // Handle active state
+    // Handle active state with proper cleanup to prevent double-firing
     useEffect(() => {
       if (active) {
-        startEffect();
+        // Use a small delay to ensure the container is fully rendered
+        const timeoutId = setTimeout(() => {
+          startEffect();
+        }, 10);
+        
+        return () => {
+          clearTimeout(timeoutId);
+          isRunningRef.current = false;
+          effectIdRef.current += 1;
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
+          }
+        };
       } else {
+        // Stop any running effect
+        isRunningRef.current = false;
+        effectIdRef.current += 1;
+        
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
         }
         particlesRef.current = [];
         const ctx = canvasRef.current?.getContext('2d');
@@ -515,25 +696,61 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
         }
       };
     }, [active, startEffect]);
 
-    // Handle resize
+    // Track container position for portal
+    const [canvasPosition, setCanvasPosition] = useState<{
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+    } | null>(null);
+
+    // Update canvas position when active
     useEffect(() => {
-      const handleResize = () => {
-        const canvas = canvasRef.current;
+      if (!active || !containerRef.current) {
+        setCanvasPosition(null);
+        return;
+      }
+
+      const updatePosition = () => {
         const container = containerRef.current;
-        if (canvas && container && active) {
-          const rect = container.getBoundingClientRect();
-          canvas.width = rect.width;
-          canvas.height = rect.height;
-        }
+        if (!container) return;
+        
+        const rect = container.getBoundingClientRect();
+        const expandedWidth = rect.width * CANVAS_EXPANSION;
+        const expandedHeight = rect.height * CANVAS_EXPANSION;
+        const offsetX = (expandedWidth - rect.width) / 2;
+        const offsetY = (expandedHeight - rect.height) / 2;
+        
+        setCanvasPosition({
+          top: rect.top + window.scrollY - offsetY,
+          left: rect.left + window.scrollX - offsetX,
+          width: expandedWidth,
+          height: expandedHeight,
+        });
       };
 
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
+      updatePosition();
+      
+      // Update position on scroll/resize
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+      
+      return () => {
+        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('resize', updatePosition);
+      };
     }, [active]);
+
+    // Check if we can use portal (client-side only)
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+      setMounted(true);
+    }, []);
 
     // Combine refs
     const setRefs = (node: HTMLDivElement | null) => {
@@ -545,14 +762,27 @@ export const ParticleEffect = forwardRef<HTMLDivElement, ParticleEffectProps>(
       }
     };
 
+    // Render canvas via portal to escape overflow:hidden containers
+    const canvasElement = active && mounted && canvasPosition && (
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: canvasPosition.top - window.scrollY,
+          left: canvasPosition.left - window.scrollX,
+          width: canvasPosition.width,
+          height: canvasPosition.height,
+          pointerEvents: 'none',
+          zIndex: 9999,
+        }}
+        aria-hidden="true"
+      />
+    );
+
     return (
       <div ref={setRefs} className={cn('relative', className)} style={style} {...props}>
         {children}
-        <canvas
-          ref={canvasRef}
-          className="pointer-events-none absolute inset-0"
-          aria-hidden="true"
-        />
+        {mounted && canvasElement && createPortal(canvasElement, document.body)}
       </div>
     );
   }
@@ -564,16 +794,61 @@ ParticleEffect.displayName = 'ParticleEffect';
 // Convenience Components
 // ============================================
 
+// ============================================
+// Enhanced Convenience Components
+// ============================================
+
 export const CoinBurst = forwardRef<
   HTMLDivElement,
   Omit<ParticleEffectProps, 'shape' | 'motion' | 'colors'>
 >((props, ref) => (
-  <ParticleEffect ref={ref} shape="coin" motion="rise" colors={PARTICLE_COLORS.gold} {...props} />
+  <ParticleEffect
+    ref={ref}
+    shape="coin"
+    motion="fountain"
+    colors={PARTICLE_COLORS.gold}
+    count={25}
+    intensity="intense"
+    sizeRange={[12, 24]}
+    lifetime={1800}
+    {...props}
+  />
 ));
 CoinBurst.displayName = 'CoinBurst';
 
+export const CoinRain = forwardRef<
+  HTMLDivElement,
+  Omit<ParticleEffectProps, 'shape' | 'colors'>
+>((props, ref) => (
+  <ParticleEffect
+    ref={ref}
+    shape="coin"
+    motion="fall"
+    colors={PARTICLE_COLORS.gold}
+    count={30}
+    intensity="normal"
+    sizeRange={[10, 20]}
+    lifetime={2500}
+    origin={{ x: 0.5, y: 0.1 }}
+    {...props}
+  />
+));
+CoinRain.displayName = 'CoinRain';
+
 export const StarBurst = forwardRef<HTMLDivElement, Omit<ParticleEffectProps, 'shape' | 'motion'>>(
-  (props, ref) => <ParticleEffect ref={ref} shape="star" motion="burst" {...props} />
+  (props, ref) => (
+    <ParticleEffect
+      ref={ref}
+      shape="star"
+      motion="burst"
+      colors={['#FFD700', '#00FFFF', '#FF69B4', '#FFFFFF', '#7B68EE']}
+      count={40}
+      intensity="intense"
+      sizeRange={[8, 18]}
+      lifetime={1500}
+      {...props}
+    />
+  )
 );
 StarBurst.displayName = 'StarBurst';
 
@@ -587,6 +862,8 @@ export const EmberEffect = forwardRef<
     motion="rise"
     colors={PARTICLE_COLORS.fire}
     continuous
+    emitRate={8}
+    sizeRange={[4, 12]}
     {...props}
   />
 ));
@@ -595,7 +872,18 @@ EmberEffect.displayName = 'EmberEffect';
 export const SparkleEffect = forwardRef<
   HTMLDivElement,
   Omit<ParticleEffectProps, 'shape' | 'motion'>
->((props, ref) => <ParticleEffect ref={ref} shape="spark" motion="drift" continuous {...props} />);
+>((props, ref) => (
+  <ParticleEffect
+    ref={ref}
+    shape="spark"
+    motion="drift"
+    continuous
+    emitRate={6}
+    colors={['#FFFFFF', '#FFD700', '#00FFFF', '#FF69B4']}
+    sizeRange={[6, 14]}
+    {...props}
+  />
+));
 SparkleEffect.displayName = 'SparkleEffect';
 
 export const ConfettiBurst = forwardRef<
@@ -607,7 +895,10 @@ export const ConfettiBurst = forwardRef<
     shape="confetti"
     motion="fountain"
     colors={PARTICLE_COLORS.confetti}
-    count={50}
+    count={60}
+    intensity="intense"
+    sizeRange={[8, 16]}
+    lifetime={2500}
     {...props}
   />
 ));
@@ -623,6 +914,8 @@ export const SnowEffect = forwardRef<
     motion="fall"
     colors={['#FFFFFF', '#E0FFFF', '#B0E0E6']}
     continuous
+    emitRate={10}
+    sizeRange={[6, 14]}
     {...props}
   />
 ));
@@ -637,7 +930,30 @@ export const HeartBurst = forwardRef<
     shape="heart"
     motion="fountain"
     colors={['#FF69B4', '#FF1493', '#DB7093', '#FF6B6B']}
+    count={35}
+    intensity="intense"
+    sizeRange={[10, 20]}
+    lifetime={2000}
     {...props}
   />
 ));
 HeartBurst.displayName = 'HeartBurst';
+
+// New celebration effect
+export const CelebrationBurst = forwardRef<
+  HTMLDivElement,
+  Omit<ParticleEffectProps, 'shape' | 'motion' | 'colors'>
+>((props, ref) => (
+  <ParticleEffect
+    ref={ref}
+    shape="star"
+    motion="burst"
+    colors={['#FFD700', '#FF6B6B', '#00FF88', '#00BFFF', '#FF69B4', '#FFFFFF']}
+    count={50}
+    intensity="extreme"
+    sizeRange={[10, 22]}
+    lifetime={2000}
+    {...props}
+  />
+));
+CelebrationBurst.displayName = 'CelebrationBurst';

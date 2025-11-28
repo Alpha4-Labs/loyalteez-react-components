@@ -90,7 +90,12 @@
     "release": "changeset publish",
     "version": "changeset version",
     "docs:dev": "cd docs && pnpm dev",
-    "docs:build": "cd docs && pnpm build"
+    "docs:build": "cd docs && pnpm build",
+    "demo": "npm-run-all build demo:dev",
+    "demo:dev": "vite --config demo/vite.config.ts",
+    "demo:build": "npm-run-all build demo:build:only",
+    "demo:build:only": "vite build --config demo/vite.config.ts",
+    "demo:preview": "vite preview --config demo/vite.config.ts"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

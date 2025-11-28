@@ -274,7 +274,18 @@ export const PerkCardPrice = forwardRef<HTMLDivElement, PerkCardPriceProps>(
         <span className={cn(cardPriceLabelStyles({ size }))}>LTZ Value</span>
         <div className={cn(cardPriceContainerStyles({ size }))}>
           <span className={cn(cardPriceStyles({ size }))}>{formatLTZ(priceNum)}</span>
-          {showLogo && <img src="/logo-loyalteez.png" alt="LTZ" className="h-5 w-5" />}
+          {showLogo && (
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-label="LTZ">
+              <path
+                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-ltz-cyan"
+              />
+            </svg>
+          )}
         </div>
         {showShortage && !canAfford && shortage > 0 && (
           <span className="flex items-center gap-1 text-xs text-orange-400">

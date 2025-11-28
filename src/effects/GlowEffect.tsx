@@ -5,41 +5,65 @@ import { cn } from '@/utils/cn';
 import type { GlowEffectProps, GlowPattern, EffectIntensity } from './types';
 import { GLOW_COLORS } from './types';
 
-// Animation keyframes (injected via style tag)
+// Animation keyframes (injected via style tag) - enhanced for more impact
 const GLOW_KEYFRAMES = `
 @keyframes ltz-glow-pulse {
-  0%, 100% { opacity: var(--glow-min-opacity); }
-  50% { opacity: var(--glow-max-opacity); }
+  0%, 100% { 
+    opacity: var(--glow-min-opacity); 
+    filter: blur(0px);
+  }
+  50% { 
+    opacity: var(--glow-max-opacity); 
+    filter: blur(2px);
+  }
 }
 
 @keyframes ltz-glow-heartbeat {
-  0%, 100% { opacity: var(--glow-min-opacity); transform: scale(1); }
-  14% { opacity: var(--glow-max-opacity); transform: scale(1.05); }
-  28% { opacity: var(--glow-min-opacity); transform: scale(1); }
-  42% { opacity: var(--glow-max-opacity); transform: scale(1.03); }
+  0%, 100% { 
+    opacity: var(--glow-min-opacity); 
+    transform: scale(1); 
+  }
+  14% { 
+    opacity: var(--glow-max-opacity); 
+    transform: scale(1.08); 
+  }
+  28% { 
+    opacity: calc(var(--glow-min-opacity) * 1.2); 
+    transform: scale(1); 
+  }
+  42% { 
+    opacity: calc(var(--glow-max-opacity) * 0.9); 
+    transform: scale(1.04); 
+  }
+  56% { 
+    opacity: var(--glow-min-opacity); 
+    transform: scale(1); 
+  }
 }
 
 @keyframes ltz-glow-flicker {
-  0%, 100% { opacity: var(--glow-max-opacity); }
-  10% { opacity: calc(var(--glow-max-opacity) * 0.8); }
-  20% { opacity: var(--glow-max-opacity); }
-  30% { opacity: calc(var(--glow-max-opacity) * 0.6); }
-  40% { opacity: var(--glow-max-opacity); }
-  50% { opacity: calc(var(--glow-max-opacity) * 0.9); }
-  60% { opacity: calc(var(--glow-max-opacity) * 0.7); }
-  70% { opacity: var(--glow-max-opacity); }
-  80% { opacity: calc(var(--glow-max-opacity) * 0.85); }
-  90% { opacity: var(--glow-max-opacity); }
+  0%, 100% { opacity: var(--glow-max-opacity); filter: brightness(1); }
+  10% { opacity: calc(var(--glow-max-opacity) * 0.7); filter: brightness(0.9); }
+  20% { opacity: var(--glow-max-opacity); filter: brightness(1.1); }
+  30% { opacity: calc(var(--glow-max-opacity) * 0.5); filter: brightness(0.8); }
+  40% { opacity: var(--glow-max-opacity); filter: brightness(1.2); }
+  50% { opacity: calc(var(--glow-max-opacity) * 0.85); filter: brightness(1); }
+  60% { opacity: calc(var(--glow-max-opacity) * 0.6); filter: brightness(0.85); }
+  70% { opacity: var(--glow-max-opacity); filter: brightness(1.15); }
+  80% { opacity: calc(var(--glow-max-opacity) * 0.75); filter: brightness(0.95); }
+  90% { opacity: var(--glow-max-opacity); filter: brightness(1.05); }
 }
 
 @keyframes ltz-glow-wave {
-  0% { background-position: 200% center; }
-  100% { background-position: -200% center; }
+  0% { background-position: 200% center; filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+  100% { background-position: -200% center; filter: brightness(1); }
 }
 
 @keyframes ltz-glow-rainbow {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+  0% { filter: hue-rotate(0deg) saturate(1.2); }
+  50% { filter: hue-rotate(180deg) saturate(1.5); }
+  100% { filter: hue-rotate(360deg) saturate(1.2); }
 }
 `;
 
@@ -51,15 +75,15 @@ const SPEED_DURATIONS = {
   instant: 300,
 } as const;
 
-// Intensity mappings
+// Intensity mappings - enhanced for more dramatic effects
 const INTENSITY_CONFIG: Record<
   EffectIntensity,
   { blur: number; spread: number; opacity: [number, number] }
 > = {
-  subtle: { blur: 8, spread: 2, opacity: [0.2, 0.4] },
-  normal: { blur: 15, spread: 4, opacity: [0.3, 0.6] },
-  intense: { blur: 25, spread: 8, opacity: [0.5, 0.9] },
-  extreme: { blur: 40, spread: 12, opacity: [0.7, 1] },
+  subtle: { blur: 12, spread: 4, opacity: [0.25, 0.5] },
+  normal: { blur: 20, spread: 8, opacity: [0.4, 0.75] },
+  intense: { blur: 35, spread: 15, opacity: [0.6, 0.95] },
+  extreme: { blur: 50, spread: 20, opacity: [0.8, 1] },
 };
 
 // Pattern to animation mapping

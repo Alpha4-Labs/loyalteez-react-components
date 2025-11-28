@@ -132,6 +132,12 @@ export interface Particle {
   life: number;
   maxLife: number;
   gravity: number;
+  // Enhanced properties for better effects
+  initialSize?: number;
+  wobbleOffset?: number;
+  wobbleSpeed?: number;
+  scaleOverLife?: boolean;
+  wobble?: number;
 }
 
 export interface ParticleEffectProps extends BaseEffectProps {

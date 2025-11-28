@@ -11,20 +11,9 @@ interface FlameIconProps {
  * Animated flame icon with intensity-based colors and effects
  */
 export function FlameIcon({ intensity, className }: FlameIconProps) {
-  if (intensity === 0) {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" className={cn('text-ltz-text-muted', className)}>
-        <path
-          d="M12 22c-4.97 0-9-3.58-9-8 0-2.52 1.17-4.77 3-6.24V6c0-.55.45-1 1-1s1 .45 1 1v1.38c.59-.31 1.22-.55 1.88-.72A7.003 7.003 0 0 1 12 2c1.05 0 2.03.24 2.93.66.66.17 1.29.41 1.88.72V2c0-.55.45-1 1-1s1 .45 1 1v1.76c1.83 1.47 3 3.72 3 6.24 0 4.42-4.03 8-9 8z"
-          fill="currentColor"
-          opacity="0.3"
-        />
-      </svg>
-    );
-  }
-
   // Color gradients based on intensity
   const gradients = {
+    0: { from: '#6b7280', to: '#4b5563' },
     1: { from: '#f97316', to: '#ef4444' },
     2: { from: '#fb923c', to: '#dc2626' },
     3: { from: '#fdba74', via: '#f97316', to: '#dc2626' },
@@ -33,14 +22,14 @@ export function FlameIcon({ intensity, className }: FlameIconProps) {
   };
 
   const colors = gradients[intensity];
-  const gradientId = `flame-gradient-${intensity}`;
+  const gradientId = `flame-gradient-${intensity}-${Math.random().toString(36).slice(2, 7)}`;
 
   return (
     <svg viewBox="0 0 24 24" fill="none" className={cn('drop-shadow-lg', className)}>
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="100%" x2="0%" y2="0%">
           <stop offset="0%" stopColor={colors.to} />
-          {'via' in colors && <stop offset="50%" stopColor={colors.via} />}
+          {'via' in colors && <stop offset="50%" stopColor={(colors as { via: string }).via} />}
           <stop offset="100%" stopColor={colors.from} />
         </linearGradient>
         {intensity >= 4 && (
@@ -54,45 +43,48 @@ export function FlameIcon({ intensity, className }: FlameIconProps) {
         )}
       </defs>
 
-      {/* Main flame body */}
+      {/* Flame shape - proper droplet/flame path */}
       <path
-        d="M12 22c-4.97 0-9-3.58-9-8 0-2.21.89-4.21 2.34-5.66.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41C5.64 10.86 5 12.36 5 14c0 3.31 3.13 6 7 6s7-2.69 7-6c0-1.64-.64-3.14-1.75-4.25-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0C20.11 9.79 21 11.79 21 14c0 4.42-4.03 8-9 8z"
+        d="M12 2C12 2 7 8.5 7 13.5C7 17.09 9.24 20 12 20C14.76 20 17 17.09 17 13.5C17 8.5 12 2 12 2Z"
         fill={`url(#${gradientId})`}
         filter={intensity >= 4 ? `url(#flame-glow-${intensity})` : undefined}
+        opacity={intensity === 0 ? 0.4 : 1}
+        className={intensity >= 3 ? 'animate-[ltz-float_1.5s_ease-in-out_infinite]' : ''}
       />
 
-      {/* Inner flame */}
-      <path
-        d="M12 2c-.39 0-.77.14-1.06.44-.97 1.02-3.94 4.36-3.94 7.56 0 2.76 2.24 5 5 5s5-2.24 5-5c0-3.2-2.97-6.54-3.94-7.56C12.77 2.14 12.39 2 12 2z"
-        fill={`url(#${gradientId})`}
-        opacity={intensity >= 3 ? '1' : '0.8'}
-        className={intensity >= 4 ? 'animate-pulse' : ''}
-      />
+      {/* Inner flame highlight */}
+      {intensity >= 2 && (
+        <path
+          d="M12 6C12 6 9 10 9 13C9 15.21 10.34 17 12 17C13.66 17 15 15.21 15 13C15 10 12 6 12 6Z"
+          fill={intensity >= 4 ? '#fef3c7' : intensity >= 3 ? '#fed7aa' : '#fdba74'}
+          opacity={0.9}
+        />
+      )}
 
       {/* Core flame (brightest part) */}
-      {intensity >= 3 && (
+      {intensity >= 4 && (
         <path
-          d="M12 6c-.26 0-.51.1-.71.29C10.56 7.02 9 8.89 9 10.5c0 1.66 1.34 3 3 3s3-1.34 3-3c0-1.61-1.56-3.48-2.29-4.21A.996.996 0 0 0 12 6z"
-          fill={intensity >= 4 ? '#fef3c7' : '#fed7aa'}
-          className={intensity >= 4 ? 'animate-[ltz-pulse-glow_1s_ease-in-out_infinite]' : ''}
+          d="M12 10C12 10 10.5 12 10.5 13.5C10.5 14.88 11.17 16 12 16C12.83 16 13.5 14.88 13.5 13.5C13.5 12 12 10 12 10Z"
+          fill="#fef9c3"
+          className="animate-pulse"
         />
       )}
 
       {/* Legendary sparkles */}
       {intensity === 5 && (
         <>
-          <circle cx="8" cy="8" r="1" fill="#fef08a" className="animate-ping" />
+          <circle cx="8" cy="10" r="1" fill="#fef08a" className="animate-ping" />
           <circle
             cx="16"
-            cy="6"
+            cy="10"
             r="0.75"
             fill="#fef08a"
             className="animate-ping"
             style={{ animationDelay: '0.3s' }}
           />
           <circle
-            cx="14"
-            cy="12"
+            cx="12"
+            cy="5"
             r="0.5"
             fill="#fef08a"
             className="animate-ping"

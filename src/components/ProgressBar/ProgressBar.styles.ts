@@ -1,11 +1,12 @@
 import { cva } from 'class-variance-authority';
 
-export const progressContainerStyles = cva('relative w-full overflow-hidden rounded-full', {
+export const progressContainerStyles = cva('relative w-full overflow-hidden rounded-full bg-white/10', {
   variants: {
     size: {
-      sm: 'h-1.5',
-      md: 'h-2.5',
+      sm: 'h-2',
+      md: 'h-3',
       lg: 'h-4',
+      xl: 'h-6',
     },
   },
   defaultVariants: {
@@ -19,6 +20,7 @@ export const progressTrackStyles = cva('absolute inset-0 rounded-full', {
       sm: '',
       md: '',
       lg: '',
+      xl: '',
     },
   },
   defaultVariants: {
@@ -27,13 +29,19 @@ export const progressTrackStyles = cva('absolute inset-0 rounded-full', {
 });
 
 export const progressBarStyles = cva(
-  'h-full rounded-full transition-all relative overflow-hidden',
+  'h-full rounded-full transition-all duration-500 relative overflow-hidden',
   {
     variants: {
       variant: {
-        default: 'bg-ltz-purple',
-        gradient: 'ltz-bg-gradient-primary',
-        glow: 'ltz-bg-gradient-primary shadow-ltz-glow-purple',
+        default: 'bg-gradient-to-r from-cyan-500 to-purple-500',
+        gradient: 'bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500',
+        glow: 'bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 shadow-lg shadow-purple-500/50',
+        success: 'bg-gradient-to-r from-emerald-400 to-green-500',
+        warning: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+        error: 'bg-gradient-to-r from-red-400 to-rose-500',
+        cyan: 'bg-gradient-to-r from-cyan-400 to-cyan-600',
+        purple: 'bg-gradient-to-r from-purple-400 to-purple-600',
+        gold: 'bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500',
       },
       animated: {
         true: 'animate-ltz-progress-fill',
@@ -43,6 +51,7 @@ export const progressBarStyles = cva(
         sm: '',
         md: '',
         lg: '',
+        xl: '',
       },
     },
     defaultVariants: {
@@ -59,6 +68,7 @@ export const progressLabelStyles = cva('text-ltz-text-secondary font-medium tabu
       sm: 'text-xs',
       md: 'text-sm',
       lg: 'text-base',
+      xl: 'text-lg',
     },
     position: {
       right: 'ml-3',

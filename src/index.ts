@@ -283,6 +283,34 @@ export {
   EFFECT_PRESETS,
   GLOW_COLORS,
   PARTICLE_COLORS,
+  // Effect Combo Hooks
+  useEffectCombo,
+  useCoinCollectEffect,
+  useLevelUpEffect,
+  useMilestoneComboEffect,
+  useStreakEffect,
+  useSuccessEffect,
+  useErrorComboEffect,
+  useLegendaryEffect,
+  // Effect Layer
+  EffectLayer,
+  LegendaryEffectLayer,
+  EpicEffectLayer,
+  RareEffectLayer,
+  RewardEffectLayer,
+  MilestoneEffectLayer,
+  SuccessEffectLayer,
+  ErrorEffectLayer,
+  // Enhanced Components
+  EnhancedPerkCard,
+  LegendaryPerkCard,
+  EpicPerkCard,
+  RarePerkCard,
+  EnhancedBalanceDisplay,
+  CelebratoryBalanceDisplay,
+  JackpotBalanceDisplay,
+  EnhancedToastProvider,
+  useEnhancedToast,
 } from './effects';
 
 // ============================================
@@ -318,4 +346,19 @@ export type {
   ToneId,
   ToneConfig,
   ToneProviderProps,
+  // Effect Combo
+  EffectComboConfig,
+  EffectComboState,
+  UseEffectComboReturn,
+  // Effect Layer
+  EffectLayerProps,
+  // Enhanced Components
+  EnhancedPerkCardProps,
+  PerkRarity,
+  EnhancedBalanceDisplayProps,
+  EnhancedToast,
+  EnhancedToastOptions,
+  EnhancedRewardOptions,
+  EnhancedToastContextValue,
+  EnhancedToastProviderProps,
 } from './effects';
